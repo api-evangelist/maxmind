@@ -1,0 +1,205 @@
+aid: maxmind
+name: MaxMind
+description: >
+  MaxMind is an IP intelligence and fraud prevention company founded in 2002,
+  serving over 100,000 businesses worldwide. Their GeoIP web services provide
+  accurate IP geolocation data including country, city, ISP, organization, ASN,
+  connection type, and VPN/proxy detection. Their minFraud services offer
+  real-time transaction risk scoring using over 80 data points on IPs, email
+  addresses, devices, and payment cards to help businesses detect and prevent
+  fraud. MaxMind also offers downloadable GeoIP databases and the free GeoLite2
+  dataset for developers who prefer local lookups over API calls.
+type: Index
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+url: https://raw.githubusercontent.com/api-evangelist/maxmind/refs/heads/main/apis.yml
+created: '2026-06-12'
+modified: '2026-06-12'
+specificationVersion: '0.19'
+tags:
+  - IP Intelligence
+  - Geolocation
+  - Fraud Prevention
+  - Risk Scoring
+  - VPN Detection
+  - Proxy Detection
+  - ISP Data
+  - GeoIP
+apis:
+  - aid: maxmind:geoip-country
+    name: GeoIP Country Web Service
+    description: >
+      Returns country-level geolocation data for a given IP address, including
+      country name, ISO code, continent, and registered country. Suitable for
+      geo-targeting, content localization, and compliance use cases where city
+      precision is not required. Queries are billed at $0.0001 per lookup using
+      MaxMind's shared credit system.
+    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    humanURL: https://dev.maxmind.com/geoip/docs/web-services/
+    baseURL: https://geoip.maxmind.com
+    tags:
+      - Geolocation
+      - Country
+      - IP Intelligence
+    properties:
+      - type: Documentation
+        url: https://dev.maxmind.com/geoip/docs/web-services/
+      - type: OpenAPI
+        url: https://github.com/maxmind/api-specs
+    contact:
+      - FN: MaxMind Support
+        url: https://support.maxmind.com/
+
+  - aid: maxmind:geoip-city
+    name: GeoIP City Plus Web Service
+    description: >
+      Provides city-level geolocation data including city name, postal code,
+      latitude and longitude with accuracy radius, metro code, time zone, and
+      subdivisions. Also includes country, ISP, and organization data in a
+      single response. Priced at $0.0003 per query and suitable for personalized
+      user experiences, targeted advertising, and regional content delivery.
+    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    humanURL: https://dev.maxmind.com/geoip/docs/web-services/
+    baseURL: https://geoip.maxmind.com
+    tags:
+      - Geolocation
+      - City
+      - IP Intelligence
+    properties:
+      - type: Documentation
+        url: https://dev.maxmind.com/geoip/docs/web-services/
+      - type: OpenAPI
+        url: https://github.com/maxmind/api-specs
+    contact:
+      - FN: MaxMind Support
+        url: https://support.maxmind.com/
+
+  - aid: maxmind:geoip-insights
+    name: GeoIP Insights Web Service
+    description: >
+      MaxMind's most comprehensive IP data API, returning all GeoIP City Plus
+      fields plus additional intelligence including connection type, ISP,
+      organization, user type, domain, anonymous IP and proxy/VPN/Tor detection
+      flags. Priced at $0.002 per query, it is designed for fraud prevention,
+      security analytics, and advanced audience segmentation where maximum
+      enrichment per IP lookup is needed.
+    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    humanURL: https://dev.maxmind.com/geoip/docs/web-services/
+    baseURL: https://geoip.maxmind.com
+    tags:
+      - Geolocation
+      - Insights
+      - IP Intelligence
+      - VPN Detection
+      - Proxy Detection
+    properties:
+      - type: Documentation
+        url: https://dev.maxmind.com/geoip/docs/web-services/
+      - type: OpenAPI
+        url: https://github.com/maxmind/api-specs
+    contact:
+      - FN: MaxMind Support
+        url: https://support.maxmind.com/
+
+  - aid: maxmind:minfraud-score
+    name: minFraud Score
+    description: >
+      Returns a single overall transaction risk score (0–99) and an IP risk
+      score for each transaction submitted. Accepts custom inputs and supports
+      custom rules for risk tuning. At $0.005 per query, it is the most
+      affordable entry point into MaxMind's fraud prevention platform and is
+      well-suited for high-volume screening where speed and cost efficiency take
+      priority over data depth.
+    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    humanURL: https://dev.maxmind.com/minfraud/api-documentation/
+    baseURL: https://minfraud.maxmind.com
+    tags:
+      - Fraud Prevention
+      - Risk Scoring
+      - Transaction Risk
+    properties:
+      - type: Documentation
+        url: https://dev.maxmind.com/minfraud/api-documentation/
+      - type: OpenAPI
+        url: https://github.com/maxmind/api-specs
+    contact:
+      - FN: MaxMind Support
+        url: https://support.maxmind.com/
+
+  - aid: maxmind:minfraud-insights
+    name: minFraud Insights
+    description: >
+      Extends minFraud Score with over 80 data points on IPs, email addresses,
+      devices, and payment cards, plus IP risk reasons that explain contributing
+      risk factors. At $0.015 per query, it is designed for e-commerce and
+      payment platforms that need detailed signals to feed manual review queues
+      or custom risk models.
+    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    humanURL: https://dev.maxmind.com/minfraud/api-documentation/
+    baseURL: https://minfraud.maxmind.com
+    tags:
+      - Fraud Prevention
+      - Risk Scoring
+      - Transaction Risk
+      - Email Risk
+    properties:
+      - type: Documentation
+        url: https://dev.maxmind.com/minfraud/api-documentation/
+      - type: OpenAPI
+        url: https://github.com/maxmind/api-specs
+    contact:
+      - FN: MaxMind Support
+        url: https://support.maxmind.com/
+
+  - aid: maxmind:minfraud-factors
+    name: minFraud Factors
+    description: >
+      MaxMind's most detailed fraud-scoring tier, adding component-level risk
+      factor decomposition on top of all minFraud Insights features. Returns
+      the individual risk reasons that make up the composite transaction score,
+      enabling model interpretability and rule refinement. Priced at $0.020 per
+      query and best suited for fraud teams that need explainability alongside
+      raw scores.
+    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    humanURL: https://dev.maxmind.com/minfraud/api-documentation/
+    baseURL: https://minfraud.maxmind.com
+    tags:
+      - Fraud Prevention
+      - Risk Scoring
+      - Transaction Risk
+      - Risk Factors
+    properties:
+      - type: Documentation
+        url: https://dev.maxmind.com/minfraud/api-documentation/
+      - type: OpenAPI
+        url: https://github.com/maxmind/api-specs
+    contact:
+      - FN: MaxMind Support
+        url: https://support.maxmind.com/
+
+common:
+  - type: Website
+    url: https://www.maxmind.com/
+  - type: Documentation
+    url: https://dev.maxmind.com/
+  - type: GitHubOrg
+    url: https://github.com/maxmind
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/maxmind
+  - type: Blog
+    url: https://blog.maxmind.com/
+  - type: Pricing
+    url: https://www.maxmind.com/en/solutions/fraud-prevention/plans-pricing
+  - type: StatusPage
+    url: https://status.maxmind.com/
+  - type: X
+    url: https://x.com/maxmind
+  - type: Plans
+    url: plans/maxmind-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/maxmind-rate-limits.yml
+  - type: FinOps
+    url: finops/maxmind-finops.yml
+
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

@@ -1,0 +1,177 @@
+name: MaxMind FinOps
+description: >
+  MaxMind's billing model uses a unified prepaid credit system covering all
+  GeoIP and minFraud web service queries. Credits are purchased in advance and
+  consumed at per-query rates that vary by service tier. There are no monthly
+  minimums, no commitments, and no subscription fees for web services.
+  Downloadable GeoIP database products are billed separately on monthly or
+  annual subscription terms. This document provides a FOCUS-aligned cost
+  allocation and optimization framework for MaxMind API spend.
+specificationVersion: '1.0'
+framework: FinOps Framework FOCUS 1.0
+services:
+  - name: GeoIP Web Services
+    billingModel: prepaid-credits
+    creditCosts:
+      - service: GeoIP Country
+        costPerUnit: 0.0001
+        unit: query
+        currency: USD
+      - service: GeoIP City Plus
+        costPerUnit: 0.0003
+        unit: query
+        currency: USD
+      - service: GeoIP Insights
+        costPerUnit: 0.002
+        unit: query
+        currency: USD
+    chargeback:
+      dimensions:
+        - service_tier
+        - application_name
+        - environment
+        - team
+    optimization:
+      - strategy: Caching
+        description: >
+          Cache IP lookup results for the duration of a user session or for
+          a fixed TTL (e.g., 1 hour) to avoid redundant queries for the same
+          IP. This is MaxMind's primary recommended cost-reduction strategy.
+        expectedSavings: 40-80%
+        reference: https://support.maxmind.com/knowledge-base/articles/optimize-your-maxmind-web-service-integration
+      - strategy: Database vs API Selection
+        description: >
+          For applications exceeding ~300,000 GeoIP Country queries/month
+          or ~90,000 GeoIP City Plus queries/month, switching to a downloaded
+          GeoIP database subscription is typically more cost-effective than
+          per-query web service pricing.
+        breakeven:
+          country: 300000
+          cityPlus: 90000
+          insights: 17000
+        unit: queries per month
+      - strategy: Tier Right-Sizing
+        description: >
+          Match the GeoIP service tier to the actual data fields consumed.
+          Applications using only country/continent data should use GeoIP Country
+          ($0.0001) rather than City Plus ($0.0003) or Insights ($0.002).
+
+  - name: minFraud Web Services
+    billingModel: prepaid-credits
+    creditCosts:
+      - service: minFraud Score
+        costPerUnit: 0.005
+        unit: transaction
+        currency: USD
+      - service: minFraud Insights
+        costPerUnit: 0.015
+        unit: transaction
+        currency: USD
+      - service: minFraud Factors
+        costPerUnit: 0.020
+        unit: transaction
+        currency: USD
+    chargeback:
+      dimensions:
+        - service_tier
+        - transaction_type
+        - merchant_id
+        - environment
+        - team
+    optimization:
+      - strategy: Score-Based Escalation
+        description: >
+          Use minFraud Score ($0.005) as a first pass for all transactions and
+          only escalate to Insights ($0.015) or Factors ($0.020) for
+          transactions exceeding a risk score threshold (e.g., score > 50).
+          This reduces average cost per transaction significantly.
+        estimatedAverageCost: 0.006-0.008
+        unit: transaction
+      - strategy: Selective Submission
+        description: >
+          Not all transactions require fraud scoring. Low-value transactions,
+          returning customers with strong history, or payments from trusted
+          enterprise accounts may be excluded from minFraud scoring to reduce
+          total query volume.
+      - strategy: Free Trial Usage
+        description: >
+          New integrations and staging environments should use the 1,000-query
+          free trial before transitioning to paid credits. Test environments
+          should be isolated from production credit accounts.
+        trialQueries: 1000
+
+  - name: GeoIP Database Subscriptions
+    billingModel: subscription
+    products:
+      - name: Country Database
+        monthlyPrice: 34.00
+        annualMonthlyPrice: 31.16
+        currency: USD
+      - name: City Database
+        monthlyPrice: 134.00
+        annualMonthlyPrice: 122.83
+        currency: USD
+      - name: ISP Database
+        monthlyPrice: 44.00
+        annualMonthlyPrice: 40.33
+        currency: USD
+      - name: Connection Type Database
+        monthlyPrice: 124.00
+        annualMonthlyPrice: 113.66
+        currency: USD
+      - name: Domain Name Database
+        monthlyPrice: 34.00
+        annualMonthlyPrice: 31.16
+        currency: USD
+    optimization:
+      - strategy: Annual Billing
+        description: >
+          Annual subscriptions provide approximately 8-10% savings versus
+          monthly billing for all GeoIP database products.
+        discount: 8-10%
+      - strategy: GeoLite2 for Non-Commercial
+        description: >
+          GeoLite2 provides free country and city databases with reduced
+          accuracy. For internal analytics, development, and testing workloads,
+          GeoLite2 eliminates database subscription costs entirely.
+
+costAllocation:
+  recommendedTags:
+    - key: maxmind_service
+      values: [geoip_country, geoip_city, geoip_insights, minfraud_score, minfraud_insights, minfraud_factors]
+      description: Maps spend to the specific MaxMind API tier
+    - key: application
+      description: Identifies the application or service consuming MaxMind APIs
+    - key: environment
+      values: [production, staging, development]
+      description: Separates production API costs from non-production usage
+    - key: team
+      description: Enables team-level chargeback for shared platform accounts
+
+budgeting:
+  creditModel:
+    description: >
+      MaxMind credits are prepaid and shared across all web services. Monitor
+      credit balance via the MaxMind account portal. Configure auto-recharge
+      to prevent service interruption. Set alerts at 20% and 10% remaining
+      credit balance thresholds.
+    autoRecharge: available
+    usageReports: available
+    reference: https://www.maxmind.com/en/account
+  forecastingApproach: >
+    Forecast monthly credit consumption by multiplying average daily query
+    volume per service tier by the per-query cost and 30.4 days. Add 15-20%
+    buffer for traffic spikes. For minFraud, model transaction volume growth
+    alongside business GMV growth.
+
+references:
+  - name: GeoIP Web Service Pricing
+    url: https://support.maxmind.com/hc/en-us/articles/8428483024667-GeoIP-Web-Service-Pricing
+  - name: minFraud Plans and Pricing
+    url: https://www.maxmind.com/en/solutions/fraud-prevention/plans-pricing
+  - name: GeoIP Database Pricing
+    url: https://www.maxmind.com/en/geoip-databases
+  - name: Optimize MaxMind Integration
+    url: https://support.maxmind.com/knowledge-base/articles/optimize-your-maxmind-web-service-integration
+  - name: MaxMind Account Portal
+    url: https://www.maxmind.com/en/account

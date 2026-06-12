@@ -1,0 +1,104 @@
+name: MaxMind Rate Limits
+description: >
+  MaxMind does not enforce strict per-second or per-minute rate limits for
+  paid GeoIP or minFraud web service customers. Access is metered by credit
+  consumption rather than request frequency. However, excessive error rates
+  may trigger temporary throttling. Database download endpoints use a
+  per-account daily download limit. GeoLite2 free tier has additional
+  restrictions. MaxMind recommends caching and optimization best practices
+  to minimize unnecessary queries.
+specificationVersion: '0.1'
+rateLimits:
+  - name: GeoIP Web Service - Paid Tier
+    description: >
+      No hard per-second or per-minute rate limits are enforced on paid GeoIP
+      web service queries (Country, City Plus, Insights). Usage is gated by
+      account credit balance. MaxMind may temporarily rate-limit accounts
+      that generate excessive HTTP errors, indicating misconfigured integrations.
+    scope: account
+    type: credit-based
+    enforced: false
+    notes: >
+      Excessive error responses (4xx or 5xx) may trigger temporary rate limiting
+      as a protective measure. Proper integration and caching are recommended.
+    reference: https://support.maxmind.com/knowledge-base/articles/optimize-your-maxmind-web-service-integration
+
+  - name: minFraud Web Service - Paid Tier
+    description: >
+      No hard per-second or per-minute rate limits are enforced on paid
+      minFraud web service queries (Score, Insights, Factors). Usage is gated
+      by account credit balance with pay-as-you-go billing.
+    scope: account
+    type: credit-based
+    enforced: false
+    notes: >
+      Auto-recharge can be configured to prevent service interruption when
+      credit balance is low. A free trial provides up to 1,000 queries.
+    reference: https://www.maxmind.com/en/solutions/fraud-prevention/plans-pricing
+
+  - name: GeoIP Database Downloads - Daily Limit
+    description: >
+      Database download endpoints enforce a per-account, per-24-hour window
+      limit on the number of times a given database can be downloaded.
+      Exceeding this limit results in rate-limit errors during CI/CD pipelines
+      or frequent redeployment scenarios.
+    scope: account
+    type: daily-window
+    enforced: true
+    window: 24 hours
+    notes: >
+      Customers running more than 2 database deployments per day in automated
+      pipelines are most likely to encounter this limit. MaxMind recommends
+      caching the downloaded database and using geoipupdate for scheduled
+      refresh rather than re-downloading on every deploy.
+    reference: https://github.com/maxmind/geoipupdate
+
+  - name: GeoLite2 - Free Tier Access
+    description: >
+      GeoLite2 free databases are available to registered accounts only.
+      Download access requires a free MaxMind account and a valid license key.
+      No per-query rate limits apply as GeoLite2 data is used locally, but
+      the download refresh rate is governed by MaxMind's database update
+      schedule (bi-weekly updates).
+    scope: account
+    type: registration-gated
+    enforced: true
+    refreshCadence: bi-weekly
+    notes: >
+      GeoLite2 is provided under the Creative Commons Attribution-ShareAlike 4.0
+      license and requires attribution. It is not appropriate for commercial
+      use cases that require accuracy guarantees.
+    reference: https://dev.maxmind.com/geoip/geolite2-free-geolocation-data
+
+  - name: Authentication Errors
+    description: >
+      Requests with invalid account IDs or license keys return HTTP 401.
+      Requests that exceed credit balance return HTTP 402. Repeated
+      authentication failures may result in temporary account lockout for
+      security reasons.
+    scope: account
+    type: error-based
+    enforced: true
+    httpCodes:
+      - code: 401
+        description: Invalid credentials
+      - code: 402
+        description: Insufficient credit balance
+      - code: 429
+        description: Too many requests (excessive error rate)
+    reference: https://dev.maxmind.com/geoip/docs/web-services/
+
+  - name: Concurrency
+    description: >
+      MaxMind does not publish an explicit concurrency limit for web service
+      requests. The service is designed for high throughput with multiple
+      regional endpoints (Oregon, Virginia, London, Singapore) providing
+      geographic distribution. Customers requiring extremely high concurrency
+      should contact MaxMind sales for enterprise arrangements.
+    scope: account
+    type: concurrency
+    enforced: false
+    notes: >
+      For very high query volumes, MaxMind recommends using local database
+      files to eliminate network latency and concurrency constraints entirely.
+    reference: https://support.maxmind.com/hc/en-us/articles/26441247274011-Latency-and-Uptime-for-the-GeoIP-Web-Services

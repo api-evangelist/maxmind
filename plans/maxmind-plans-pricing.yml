@@ -1,0 +1,200 @@
+name: MaxMind Plans and Pricing
+description: >
+  MaxMind operates a unified pay-as-you-go credit model for all web service
+  APIs. Credits are purchased once and applied interchangeably across GeoIP
+  and minFraud web services. There are no monthly minimums or commitments for
+  web service APIs. Downloadable GeoIP database subscriptions are billed
+  separately on monthly or annual terms.
+specificationVersion: '0.1'
+plans:
+  - name: GeoIP Country
+    description: >
+      Country-level IP geolocation returning ISO country code, continent,
+      registered country, and anonymizer flags. Lowest cost GeoIP tier
+      suitable for geo-blocking, content restriction, and basic targeting.
+    url: https://support.maxmind.com/hc/en-us/articles/8428483024667-GeoIP-Web-Service-Pricing
+    pricingModel: pay-as-you-go
+    price: 0.0001
+    unit: per query
+    currency: USD
+    features:
+      - Country name and ISO code
+      - Continent data
+      - Registered country
+      - Anonymizer/VPN flag
+      - Basic IP intelligence
+
+  - name: GeoIP City Plus
+    description: >
+      City-level IP geolocation with postal code, latitude/longitude, time zone,
+      metro code, subdivisions, ISP, and organization data. Suitable for
+      targeted advertising, personalized user experiences, and regional content.
+    url: https://support.maxmind.com/hc/en-us/articles/8428483024667-GeoIP-Web-Service-Pricing
+    pricingModel: pay-as-you-go
+    price: 0.0003
+    unit: per query
+    currency: USD
+    features:
+      - All GeoIP Country fields
+      - City name and postal code
+      - Latitude and longitude with accuracy radius
+      - Time zone
+      - Metro code
+      - Subdivisions
+      - ISP and organization name
+      - ASN (Autonomous System Number)
+
+  - name: GeoIP Insights
+    description: >
+      MaxMind's most comprehensive IP intelligence tier, adding connection type,
+      user type, domain, and detailed anonymous IP detection including VPN,
+      proxy, hosting provider, and Tor exit node flags. Designed for fraud
+      prevention and security analytics.
+    url: https://support.maxmind.com/hc/en-us/articles/8428483024667-GeoIP-Web-Service-Pricing
+    pricingModel: pay-as-you-go
+    price: 0.002
+    unit: per query
+    currency: USD
+    features:
+      - All GeoIP City Plus fields
+      - Connection type (cable/DSL, cellular, corporate, etc.)
+      - User type classification
+      - Domain name
+      - Anonymous IP detection
+      - VPN, proxy, Tor, and hosting provider flags
+      - Static IP scoring
+
+  - name: minFraud Score
+    description: >
+      Entry-level fraud risk API returning a single 0–99 overall transaction
+      risk score and an IP risk score. Supports custom inputs and custom rules.
+      Best for high-volume screening where speed and cost efficiency are
+      prioritized over detailed signal data.
+    url: https://www.maxmind.com/en/solutions/fraud-prevention/plans-pricing
+    pricingModel: pay-as-you-go
+    price: 0.005
+    unit: per query
+    currency: USD
+    trial:
+      queries: 1000
+      type: free
+    features:
+      - Overall transaction risk score (0-99)
+      - IP risk score
+      - Custom input support
+      - Custom rules engine
+
+  - name: minFraud Insights
+    description: >
+      Mid-tier fraud API extending Score with 80+ data points on IPs, email,
+      devices, and payment cards. Includes IP risk reasons explaining score
+      contributors. Designed for e-commerce and payment platforms needing
+      detailed signals for manual review queues or custom models.
+    url: https://www.maxmind.com/en/solutions/fraud-prevention/plans-pricing
+    pricingModel: pay-as-you-go
+    price: 0.015
+    unit: per query
+    currency: USD
+    trial:
+      queries: 1000
+      type: free
+    features:
+      - All minFraud Score outputs
+      - 80+ data points (IP, email, device, payment card)
+      - IP risk reasons
+      - Email deliverability and risk signals
+      - Device fingerprinting signals
+      - Payment card BIN data
+
+  - name: minFraud Factors
+    description: >
+      MaxMind's most detailed fraud scoring tier, adding component-level risk
+      factor decomposition to all Insights features. Returns the individual
+      risk reasons forming the composite score, enabling model interpretability
+      and rule refinement for fraud operations teams.
+    url: https://www.maxmind.com/en/solutions/fraud-prevention/plans-pricing
+    pricingModel: pay-as-you-go
+    price: 0.020
+    unit: per query
+    currency: USD
+    trial:
+      queries: 1000
+      type: free
+    features:
+      - All minFraud Insights outputs
+      - Component-level risk factor decomposition
+      - Individual risk reasons per factor
+      - Score explainability for manual review
+      - Advanced rule refinement support
+
+  - name: GeoIP Databases - Country (Monthly)
+    description: >
+      Downloadable MaxMind binary database for local country-level lookups.
+      Unlimited queries with no per-call cost. Updated weekly. Suitable for
+      high-throughput applications where API latency or cost per query is a
+      concern.
+    url: https://www.maxmind.com/en/geoip-databases
+    pricingModel: subscription
+    price: 34.00
+    unit: per month
+    currency: USD
+    features:
+      - Downloadable MMDB format
+      - Weekly database updates
+      - Unlimited local lookups
+      - Country-level geolocation
+
+  - name: GeoIP Databases - City (Monthly)
+    description: >
+      Downloadable MaxMind binary database for local city-level lookups.
+      Unlimited queries with no per-call cost. Updated weekly. Includes all
+      city, postal, subdivision, and coordinate data for local enrichment.
+    url: https://www.maxmind.com/en/geoip-databases
+    pricingModel: subscription
+    price: 134.00
+    unit: per month
+    currency: USD
+    annualPrice: 122.83
+    annualUnit: per month billed annually
+    features:
+      - Downloadable MMDB format
+      - Weekly database updates
+      - Unlimited local lookups
+      - City, postal, and subdivision data
+      - Latitude/longitude with accuracy radius
+
+  - name: GeoIP Databases - ISP (Monthly)
+    description: >
+      Downloadable MaxMind database for local ISP, registering organization,
+      and ASN lookups. Enables unlimited local enrichment of IP addresses with
+      network ownership data.
+    url: https://www.maxmind.com/en/geoip-databases
+    pricingModel: subscription
+    price: 44.00
+    unit: per month
+    currency: USD
+    annualPrice: 40.33
+    annualUnit: per month billed annually
+    features:
+      - ISP name
+      - Registering organization
+      - Autonomous System Number (ASN)
+      - Weekly updates
+
+  - name: GeoLite2
+    description: >
+      Free IP geolocation database with reduced accuracy compared to commercial
+      GeoIP products. Available for country and city data. Requires a free
+      MaxMind account and attribution. Suitable for non-commercial or
+      cost-sensitive applications that can tolerate lower precision.
+    url: https://dev.maxmind.com/geoip/geolite2-free-geolocation-data
+    pricingModel: free
+    price: 0
+    unit: free
+    currency: USD
+    features:
+      - Country-level geolocation (free)
+      - City-level geolocation (free, reduced accuracy)
+      - MMDB and CSV formats
+      - Bi-weekly database updates
+      - Requires free account registration
