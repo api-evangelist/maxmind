@@ -14,6 +14,7 @@ image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 url: https://raw.githubusercontent.com/api-evangelist/maxmind/refs/heads/main/apis.yml
 created: '2026-06-12'
 modified: '2026-06-12'
+
 specificationVersion: '0.19'
 tags:
   - IP Intelligence
@@ -44,7 +45,7 @@ apis:
       - type: Documentation
         url: https://dev.maxmind.com/geoip/docs/web-services/
       - type: OpenAPI
-        url: https://github.com/maxmind/api-specs
+        url: openapi/maxmind-geoip-openapi.yml
     contact:
       - FN: MaxMind Support
         url: https://support.maxmind.com/
@@ -68,7 +69,7 @@ apis:
       - type: Documentation
         url: https://dev.maxmind.com/geoip/docs/web-services/
       - type: OpenAPI
-        url: https://github.com/maxmind/api-specs
+        url: openapi/maxmind-geoip-openapi.yml
     contact:
       - FN: MaxMind Support
         url: https://support.maxmind.com/
@@ -95,7 +96,7 @@ apis:
       - type: Documentation
         url: https://dev.maxmind.com/geoip/docs/web-services/
       - type: OpenAPI
-        url: https://github.com/maxmind/api-specs
+        url: openapi/maxmind-geoip-openapi.yml
     contact:
       - FN: MaxMind Support
         url: https://support.maxmind.com/
@@ -120,7 +121,7 @@ apis:
       - type: Documentation
         url: https://dev.maxmind.com/minfraud/api-documentation/
       - type: OpenAPI
-        url: https://github.com/maxmind/api-specs
+        url: openapi/maxmind-minfraud-openapi.yml
     contact:
       - FN: MaxMind Support
         url: https://support.maxmind.com/
@@ -145,7 +146,7 @@ apis:
       - type: Documentation
         url: https://dev.maxmind.com/minfraud/api-documentation/
       - type: OpenAPI
-        url: https://github.com/maxmind/api-specs
+        url: openapi/maxmind-minfraud-openapi.yml
     contact:
       - FN: MaxMind Support
         url: https://support.maxmind.com/
@@ -171,7 +172,7 @@ apis:
       - type: Documentation
         url: https://dev.maxmind.com/minfraud/api-documentation/
       - type: OpenAPI
-        url: https://github.com/maxmind/api-specs
+        url: openapi/maxmind-minfraud-openapi.yml
     contact:
       - FN: MaxMind Support
         url: https://support.maxmind.com/
@@ -187,6 +188,8 @@ common:
     url: https://www.linkedin.com/company/maxmind
   - type: Blog
     url: https://blog.maxmind.com/
+  - type: BlogFeed
+    url: https://blog.maxmind.com/feed.xml
   - type: Pricing
     url: https://www.maxmind.com/en/solutions/fraud-prevention/plans-pricing
   - type: StatusPage
@@ -199,6 +202,10 @@ common:
     url: rate-limits/maxmind-rate-limits.yml
   - type: FinOps
     url: finops/maxmind-finops.yml
+  - type: JsonLD
+    url: json-ld/maxmind-context.jsonld
+  - type: BlogPosts
+    url: blogs/blogs.json
 
 maintainers:
   - FN: Kin Lane

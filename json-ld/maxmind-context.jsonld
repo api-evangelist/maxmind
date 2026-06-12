@@ -1,0 +1,250 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "schema": "https://schema.org/",
+    "maxmind": "https://www.maxmind.com/en/api/",
+
+    "GeoIPLookup": {
+      "@id": "maxmind:GeoIPLookup",
+      "@type": "@id",
+      "description": "An IP address geolocation lookup operation performed against MaxMind GeoIP web services"
+    },
+    "FraudScore": {
+      "@id": "maxmind:FraudScore",
+      "@type": "@id",
+      "description": "A fraud risk scoring operation performed against MaxMind minFraud web services"
+    },
+
+    "ipAddress": {
+      "@id": "maxmind:ipAddress",
+      "@type": "xsd:string",
+      "description": "An IPv4 or IPv6 address subject to geolocation or risk scoring"
+    },
+    "riskScore": {
+      "@id": "maxmind:riskScore",
+      "@type": "xsd:decimal",
+      "description": "Overall transaction fraud risk score between 0.01 and 99"
+    },
+    "ipRisk": {
+      "@id": "maxmind:ipRisk",
+      "@type": "xsd:decimal",
+      "description": "Risk score for the IP address between 0.01 and 99"
+    },
+    "countryIsoCode": {
+      "@id": "maxmind:countryIsoCode",
+      "@type": "xsd:string",
+      "description": "ISO 3166-1 alpha-2 country code for the IP address location"
+    },
+    "cityName": {
+      "@id": "maxmind:cityName",
+      "@type": "xsd:string",
+      "description": "City name associated with the IP address"
+    },
+    "postalCode": {
+      "@id": "maxmind:postalCode",
+      "@type": "xsd:string",
+      "description": "Postal code associated with the IP address"
+    },
+    "latitude": {
+      "@id": "schema:latitude",
+      "@type": "xsd:double",
+      "description": "Approximate latitude of the IP address location"
+    },
+    "longitude": {
+      "@id": "schema:longitude",
+      "@type": "xsd:double",
+      "description": "Approximate longitude of the IP address location"
+    },
+    "accuracyRadius": {
+      "@id": "maxmind:accuracyRadius",
+      "@type": "xsd:integer",
+      "description": "Accuracy radius in kilometers for the latitude/longitude coordinates"
+    },
+    "timeZone": {
+      "@id": "maxmind:timeZone",
+      "@type": "xsd:string",
+      "description": "IANA time zone identifier for the IP address location"
+    },
+    "autonomousSystemNumber": {
+      "@id": "maxmind:autonomousSystemNumber",
+      "@type": "xsd:integer",
+      "description": "Autonomous System Number (ASN) associated with the IP address"
+    },
+    "autonomousSystemOrganization": {
+      "@id": "maxmind:autonomousSystemOrganization",
+      "@type": "xsd:string",
+      "description": "Organization associated with the ASN"
+    },
+    "isp": {
+      "@id": "maxmind:isp",
+      "@type": "xsd:string",
+      "description": "Internet Service Provider name for the IP address"
+    },
+    "organization": {
+      "@id": "schema:Organization",
+      "@type": "xsd:string",
+      "description": "Organization using the IP address"
+    },
+    "connectionType": {
+      "@id": "maxmind:connectionType",
+      "@type": "xsd:string",
+      "description": "Connection type for the IP address (Cable/DSL, Cellular, Corporate, Satellite)"
+    },
+    "userType": {
+      "@id": "maxmind:userType",
+      "@type": "xsd:string",
+      "description": "Type of user associated with the IP address (e.g., business, residential, cellular)"
+    },
+    "isAnonymous": {
+      "@id": "maxmind:isAnonymous",
+      "@type": "xsd:boolean",
+      "description": "Whether the IP is part of an anonymous network"
+    },
+    "isAnonymousVpn": {
+      "@id": "maxmind:isAnonymousVpn",
+      "@type": "xsd:boolean",
+      "description": "Whether the IP is associated with an anonymous VPN service"
+    },
+    "isHostingProvider": {
+      "@id": "maxmind:isHostingProvider",
+      "@type": "xsd:boolean",
+      "description": "Whether the IP belongs to a hosting provider"
+    },
+    "isPublicProxy": {
+      "@id": "maxmind:isPublicProxy",
+      "@type": "xsd:boolean",
+      "description": "Whether the IP is a public proxy"
+    },
+    "isResidentialProxy": {
+      "@id": "maxmind:isResidentialProxy",
+      "@type": "xsd:boolean",
+      "description": "Whether the IP is part of a residential proxy network"
+    },
+    "isTorExitNode": {
+      "@id": "maxmind:isTorExitNode",
+      "@type": "xsd:boolean",
+      "description": "Whether the IP is a known Tor exit node"
+    },
+    "staticIpScore": {
+      "@id": "maxmind:staticIpScore",
+      "@type": "xsd:decimal",
+      "description": "Score (0-99.99) indicating how static the IP address is"
+    },
+    "queriesRemaining": {
+      "@id": "maxmind:queriesRemaining",
+      "@type": "xsd:integer",
+      "description": "Remaining query credits in the MaxMind account"
+    },
+    "fundsRemaining": {
+      "@id": "maxmind:fundsRemaining",
+      "@type": "xsd:decimal",
+      "description": "Remaining transaction credit balance in the MaxMind account"
+    },
+    "transactionId": {
+      "@id": "maxmind:transactionId",
+      "@type": "xsd:string",
+      "description": "Internal transaction identifier submitted for fraud scoring"
+    },
+    "emailIsDisposable": {
+      "@id": "maxmind:emailIsDisposable",
+      "@type": "xsd:boolean",
+      "description": "Whether the email address is from a disposable email provider"
+    },
+    "emailIsHighRisk": {
+      "@id": "maxmind:emailIsHighRisk",
+      "@type": "xsd:boolean",
+      "description": "Whether the email address is considered high risk by MaxMind"
+    },
+    "deviceConfidence": {
+      "@id": "maxmind:deviceConfidence",
+      "@type": "xsd:decimal",
+      "description": "Confidence (0-100) that the device ID identifies a unique device"
+    },
+    "deviceId": {
+      "@id": "maxmind:deviceId",
+      "@type": "xsd:string",
+      "description": "Unique device fingerprint identifier"
+    },
+    "creditCardIsPrepaid": {
+      "@id": "maxmind:creditCardIsPrepaid",
+      "@type": "xsd:boolean",
+      "description": "Whether the credit card is a prepaid card"
+    },
+    "creditCardIsVirtual": {
+      "@id": "maxmind:creditCardIsVirtual",
+      "@type": "xsd:boolean",
+      "description": "Whether the credit card uses a virtual card number"
+    },
+    "disposition": {
+      "@id": "maxmind:disposition",
+      "@type": "@id",
+      "description": "The action disposition determined by custom minFraud rules"
+    },
+    "dispositionAction": {
+      "@id": "maxmind:dispositionAction",
+      "@type": "xsd:string",
+      "description": "The recommended action (accept, reject, manual_review, test)"
+    },
+    "riskScoreReason": {
+      "@id": "maxmind:riskScoreReason",
+      "@type": "@id",
+      "description": "A component-level reason contributing to the overall minFraud risk score"
+    },
+    "riskMultiplier": {
+      "@id": "maxmind:riskMultiplier",
+      "@type": "xsd:decimal",
+      "description": "Factor by which a risk reason multiplies the overall risk score"
+    },
+    "geoNameId": {
+      "@id": "maxmind:geoNameId",
+      "@type": "xsd:integer",
+      "description": "GeoNames database identifier for a geographic entity"
+    },
+    "continentCode": {
+      "@id": "maxmind:continentCode",
+      "@type": "xsd:string",
+      "description": "Two-letter continent code (AF, AN, AS, EU, NA, OC, SA)"
+    },
+    "subdivisionIsoCode": {
+      "@id": "maxmind:subdivisionIsoCode",
+      "@type": "xsd:string",
+      "description": "ISO 3166-2 code for a country subdivision (state/province)"
+    },
+    "isInEuropeanUnion": {
+      "@id": "maxmind:isInEuropeanUnion",
+      "@type": "xsd:boolean",
+      "description": "Whether the country is a member of the European Union"
+    },
+    "network": {
+      "@id": "maxmind:network",
+      "@type": "xsd:string",
+      "description": "CIDR notation network block associated with the IP address"
+    },
+    "isAnycast": {
+      "@id": "maxmind:isAnycast",
+      "@type": "xsd:boolean",
+      "description": "Whether the IP address is part of an anycast network"
+    },
+    "mobileCountryCode": {
+      "@id": "maxmind:mobileCountryCode",
+      "@type": "xsd:string",
+      "description": "Mobile Country Code (MCC) for cellular IP addresses"
+    },
+    "mobileNetworkCode": {
+      "@id": "maxmind:mobileNetworkCode",
+      "@type": "xsd:string",
+      "description": "Mobile Network Code (MNC) for cellular IP addresses"
+    },
+    "averageIncome": {
+      "@id": "maxmind:averageIncome",
+      "@type": "xsd:integer",
+      "description": "Average household income in USD for the geographic area (US only)"
+    },
+    "populationDensity": {
+      "@id": "maxmind:populationDensity",
+      "@type": "xsd:integer",
+      "description": "Population density per square kilometer for the geographic area"
+    }
+  }
+}

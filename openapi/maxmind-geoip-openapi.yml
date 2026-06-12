@@ -1,0 +1,626 @@
+openapi: 3.0.3
+info:
+  title: MaxMind GeoIP Web Services API
+  description: >
+    MaxMind's GeoIP web services provide IP geolocation data including country,
+    city, ISP, organization, ASN, connection type, and VPN/proxy detection.
+    Services are available at three tiers: Country, City Plus, and Insights.
+    All endpoints use HTTP Basic Auth with your MaxMind account ID and license key.
+  version: '2.1'
+  contact:
+    name: MaxMind Support
+    url: https://support.maxmind.com/
+  termsOfService: https://www.maxmind.com/en/terms_of_service
+  license:
+    name: MaxMind End User License Agreement
+    url: https://www.maxmind.com/en/end_user_license_agreement
+
+servers:
+  - url: https://geoip.maxmind.com
+    description: MaxMind GeoIP production server
+  - url: https://geolite.info
+    description: MaxMind GeoLite production server
+
+security:
+  - basicAuth: []
+
+paths:
+  /geoip/v2.1/country/{ipAddress}:
+    get:
+      operationId: getGeoIPCountry
+      summary: GeoIP Country Lookup
+      description: >
+        Returns country-level geolocation data for a given IP address, including
+        country name, ISO code, continent, and registered country. Suitable for
+        geo-targeting, content localization, and compliance use cases where city
+        precision is not required. Billed at $0.0001 per lookup.
+      tags:
+        - GeoIP Country
+      parameters:
+        - $ref: '#/components/parameters/ipAddress'
+      responses:
+        '200':
+          description: Successful country lookup response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CountryResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '402':
+          $ref: '#/components/responses/PaymentRequired'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /geoip/v2.1/city/{ipAddress}:
+    get:
+      operationId: getGeoIPCity
+      summary: GeoIP City Plus Lookup
+      description: >
+        Provides city-level geolocation data including city name, postal code,
+        latitude and longitude with accuracy radius, metro code, time zone, and
+        subdivisions. Also includes country, ISP, and organization data in a
+        single response. Priced at $0.0003 per query.
+      tags:
+        - GeoIP City
+      parameters:
+        - $ref: '#/components/parameters/ipAddress'
+      responses:
+        '200':
+          description: Successful city lookup response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CityResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '402':
+          $ref: '#/components/responses/PaymentRequired'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /geoip/v2.1/insights/{ipAddress}:
+    get:
+      operationId: getGeoIPInsights
+      summary: GeoIP Insights Lookup
+      description: >
+        MaxMind's most comprehensive IP data API, returning all GeoIP City Plus
+        fields plus additional intelligence including connection type, ISP,
+        organization, user type, domain, anonymous IP and proxy/VPN/Tor detection
+        flags. Priced at $0.002 per query.
+      tags:
+        - GeoIP Insights
+      parameters:
+        - $ref: '#/components/parameters/ipAddress'
+      responses:
+        '200':
+          description: Successful insights lookup response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsightsResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '402':
+          $ref: '#/components/responses/PaymentRequired'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: >
+        Use your MaxMind account ID as the username and your license key as the
+        password. All requests must be made over HTTPS.
+
+  parameters:
+    ipAddress:
+      name: ipAddress
+      in: path
+      required: true
+      description: >
+        The IP address you want to look up. Use "me" to look up the IP address
+        of the current connection. Accepts IPv4 (dotted quad) or IPv6
+        (canonical form per RFC 5952).
+      schema:
+        type: string
+        example: '128.101.101.101'
+
+  schemas:
+    LocalizedNames:
+      type: object
+      description: Localized names keyed by locale code (e.g., "en", "de", "fr")
+      additionalProperties:
+        type: string
+      example:
+        en: United States
+        de: Vereinigte Staaten
+
+    Continent:
+      type: object
+      description: Continent data for the IP address
+      properties:
+        code:
+          type: string
+          description: Two-letter continent code
+          example: NA
+        geoname_id:
+          type: integer
+          description: GeoNames ID for the continent
+          example: 6255149
+        names:
+          $ref: '#/components/schemas/LocalizedNames'
+
+    Country:
+      type: object
+      description: Country data for the IP address
+      properties:
+        confidence:
+          type: integer
+          description: Confidence percent (1-99) that the country is correct (Insights only)
+          minimum: 1
+          maximum: 99
+          example: 99
+        geoname_id:
+          type: integer
+          description: GeoNames ID for the country
+          example: 6252001
+        is_in_european_union:
+          type: boolean
+          description: Whether the country is a member of the EU
+          example: false
+        iso_code:
+          type: string
+          description: ISO 3166-1 alpha-2 country code
+          example: US
+        names:
+          $ref: '#/components/schemas/LocalizedNames'
+
+    RegisteredCountry:
+      type: object
+      description: Country where the IP address is registered
+      properties:
+        geoname_id:
+          type: integer
+          example: 6252001
+        is_in_european_union:
+          type: boolean
+          example: false
+        iso_code:
+          type: string
+          example: US
+        names:
+          $ref: '#/components/schemas/LocalizedNames'
+
+    RepresentedCountry:
+      type: object
+      description: Country that is represented by the IP address (e.g., military)
+      properties:
+        geoname_id:
+          type: integer
+          example: 6252001
+        is_in_european_union:
+          type: boolean
+          example: false
+        iso_code:
+          type: string
+          example: US
+        names:
+          $ref: '#/components/schemas/LocalizedNames'
+        type:
+          type: string
+          description: Type of represented country (e.g., "military", "satellite")
+          example: military
+
+    CountryTraits:
+      type: object
+      description: Traits associated with the IP address (Country tier)
+      properties:
+        ip_address:
+          type: string
+          description: The IP address that was looked up
+          example: 128.101.101.101
+        is_anycast:
+          type: boolean
+          description: Whether the IP is part of an anycast network
+          example: false
+        network:
+          type: string
+          description: CIDR network block associated with the record
+          example: 128.101.101.0/24
+
+    MaxMindMeta:
+      type: object
+      description: MaxMind account metadata
+      properties:
+        queries_remaining:
+          type: integer
+          description: Number of queries remaining in the current subscription period
+          example: 123456
+
+    City:
+      type: object
+      description: City data for the IP address
+      properties:
+        confidence:
+          type: integer
+          description: Confidence percent (1-99) that the city is correct
+          minimum: 1
+          maximum: 99
+          example: 75
+        geoname_id:
+          type: integer
+          description: GeoNames ID for the city
+          example: 5037649
+        names:
+          $ref: '#/components/schemas/LocalizedNames'
+
+    Location:
+      type: object
+      description: Location data including coordinates and time zone
+      properties:
+        accuracy_radius:
+          type: integer
+          description: Estimated accuracy radius in kilometers
+          example: 20
+        latitude:
+          type: number
+          format: double
+          description: Approximate latitude
+          example: 44.9532
+        longitude:
+          type: number
+          format: double
+          description: Approximate longitude
+          example: -93.0875
+        metro_code:
+          type: integer
+          description: US metro code (US only)
+          example: 613
+        time_zone:
+          type: string
+          description: Time zone name as defined by the IANA Time Zone Database
+          example: America/Chicago
+
+    Postal:
+      type: object
+      description: Postal code data
+      properties:
+        code:
+          type: string
+          description: Postal code for the IP address
+          example: '55420'
+        confidence:
+          type: integer
+          description: Confidence percent (1-99) the postal code is correct
+          minimum: 1
+          maximum: 99
+          example: 60
+
+    Subdivision:
+      type: object
+      description: Subdivision (state/province/region) data
+      properties:
+        confidence:
+          type: integer
+          description: Confidence percent (1-99) the subdivision is correct
+          minimum: 1
+          maximum: 99
+          example: 88
+        geoname_id:
+          type: integer
+          description: GeoNames ID for the subdivision
+          example: 5037779
+        iso_code:
+          type: string
+          description: ISO 3166-2 code for the subdivision
+          example: MN
+        names:
+          $ref: '#/components/schemas/LocalizedNames'
+
+    CityTraits:
+      allOf:
+        - $ref: '#/components/schemas/CountryTraits'
+        - type: object
+          properties:
+            autonomous_system_number:
+              type: integer
+              description: Autonomous System Number (ASN) for the IP address
+              example: 217
+            autonomous_system_organization:
+              type: string
+              description: Organization associated with the ASN
+              example: University of Minnesota
+            connection_type:
+              type: string
+              description: Connection type (Cable/DSL, Cellular, Corporate, Satellite)
+              example: Corporate
+            domain:
+              type: string
+              description: Second-level domain associated with the IP address
+              example: umn.edu
+            isp:
+              type: string
+              description: Name of the ISP
+              example: University of Minnesota
+            mobile_country_code:
+              type: string
+              description: Mobile Country Code (MCC) for mobile connections
+              example: '310'
+            mobile_network_code:
+              type: string
+              description: Mobile Network Code (MNC) for mobile connections
+              example: '004'
+            organization:
+              type: string
+              description: Name of the organization using the IP address
+              example: University of Minnesota
+
+    Anonymizer:
+      type: object
+      description: Anonymizer and proxy detection data (Insights only)
+      properties:
+        confidence:
+          type: integer
+          description: Confidence in the anonymizer detection (0-99)
+          minimum: 0
+          maximum: 99
+          example: 85
+        is_anonymous:
+          type: boolean
+          description: Whether the IP belongs to an anonymous network
+          example: false
+        is_anonymous_vpn:
+          type: boolean
+          description: Whether the IP is associated with an anonymous VPN service
+          example: false
+        is_hosting_provider:
+          type: boolean
+          description: Whether the IP belongs to a hosting provider
+          example: false
+        is_public_proxy:
+          type: boolean
+          description: Whether the IP is a public proxy
+          example: false
+        is_residential_proxy:
+          type: boolean
+          description: Whether the IP is part of a residential proxy network
+          example: false
+        is_tor_exit_node:
+          type: boolean
+          description: Whether the IP is a Tor exit node
+          example: false
+        network_last_seen:
+          type: string
+          description: Date the network was last seen as an anonymizer (ISO 8601)
+          example: '2024-01-15'
+        provider_name:
+          type: string
+          description: Name of the VPN or proxy provider if known
+          example: NordVPN
+
+    InsightsLocation:
+      allOf:
+        - $ref: '#/components/schemas/Location'
+        - type: object
+          properties:
+            average_income:
+              type: integer
+              description: Average income in US dollars for the area (US only)
+              example: 52000
+            population_density:
+              type: integer
+              description: Population density per square kilometer for the area
+              example: 1100
+
+    InsightsTraits:
+      allOf:
+        - $ref: '#/components/schemas/CityTraits'
+        - type: object
+          properties:
+            ip_risk_snapshot:
+              type: number
+              format: double
+              description: IP risk score snapshot from 0.01 to 99
+              example: 0.5
+            static_ip_score:
+              type: number
+              format: double
+              description: Score indicating how static the IP is (0-99.99)
+              example: 1.5
+            user_count:
+              type: integer
+              description: Estimated number of users sharing the IP in the past 24 hours
+              example: 1
+            user_type:
+              type: string
+              description: >
+                Type of user associated with the IP address. Possible values:
+                business, cafe, cellular, college, consumer_privacy_network,
+                content_delivery_network, dialup, government, hosting,
+                library, military, residential, router, school, search_engine_spider,
+                traveler
+              example: business
+
+    CountryResponse:
+      type: object
+      description: Response from the GeoIP Country web service
+      properties:
+        continent:
+          $ref: '#/components/schemas/Continent'
+        country:
+          $ref: '#/components/schemas/Country'
+        maxmind:
+          $ref: '#/components/schemas/MaxMindMeta'
+        registered_country:
+          $ref: '#/components/schemas/RegisteredCountry'
+        represented_country:
+          $ref: '#/components/schemas/RepresentedCountry'
+        traits:
+          $ref: '#/components/schemas/CountryTraits'
+
+    CityResponse:
+      type: object
+      description: Response from the GeoIP City Plus web service
+      properties:
+        city:
+          $ref: '#/components/schemas/City'
+        continent:
+          $ref: '#/components/schemas/Continent'
+        country:
+          $ref: '#/components/schemas/Country'
+        location:
+          $ref: '#/components/schemas/Location'
+        maxmind:
+          $ref: '#/components/schemas/MaxMindMeta'
+        postal:
+          $ref: '#/components/schemas/Postal'
+        registered_country:
+          $ref: '#/components/schemas/RegisteredCountry'
+        represented_country:
+          $ref: '#/components/schemas/RepresentedCountry'
+        subdivisions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Subdivision'
+        traits:
+          $ref: '#/components/schemas/CityTraits'
+
+    InsightsResponse:
+      type: object
+      description: Response from the GeoIP Insights web service
+      properties:
+        anonymizer:
+          $ref: '#/components/schemas/Anonymizer'
+        city:
+          $ref: '#/components/schemas/City'
+        continent:
+          $ref: '#/components/schemas/Continent'
+        country:
+          $ref: '#/components/schemas/Country'
+        location:
+          $ref: '#/components/schemas/InsightsLocation'
+        maxmind:
+          $ref: '#/components/schemas/MaxMindMeta'
+        postal:
+          $ref: '#/components/schemas/Postal'
+        registered_country:
+          $ref: '#/components/schemas/RegisteredCountry'
+        represented_country:
+          $ref: '#/components/schemas/RepresentedCountry'
+        subdivisions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Subdivision'
+        traits:
+          $ref: '#/components/schemas/InsightsTraits'
+
+    ErrorResponse:
+      type: object
+      description: Standard error response
+      properties:
+        code:
+          type: string
+          description: Error code
+          example: IP_ADDRESS_INVALID
+        error:
+          type: string
+          description: Human-readable error description
+          example: The value 'foo' is not a valid IP address.
+
+  responses:
+    BadRequest:
+      description: >
+        There was an error with the request. Check the code and error fields
+        for details.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: >
+        There was an error authenticating the request. Verify your account ID
+        and license key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    PaymentRequired:
+      description: >
+        The service requires payment. Check that your account has sufficient
+        credits.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Forbidden:
+      description: >
+        The request is forbidden. Your account does not have access to this
+        service, or the IP address is blocked.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: >
+        No record found for the IP address. The IP address may be invalid or
+        not in the database.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    TooManyRequests:
+      description: >
+        Too many requests have been sent in a given period. Slow down your
+        request rate.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    InternalServerError:
+      description: >
+        An unexpected error occurred on MaxMind's servers.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+tags:
+  - name: GeoIP Country
+    description: Country-level IP geolocation lookup
+  - name: GeoIP City
+    description: City-level IP geolocation lookup with postal, subdivisions, and coordinates
+  - name: GeoIP Insights
+    description: >
+      Most comprehensive IP data lookup including anonymizer/VPN/proxy detection,
+      user type, static IP score, and connection details
+
+externalDocs:
+  description: MaxMind GeoIP Web Services Documentation
+  url: https://dev.maxmind.com/geoip/docs/web-services/
