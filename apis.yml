@@ -10,7 +10,7 @@ description: >
   fraud. MaxMind also offers downloadable GeoIP databases and the free GeoLite2
   dataset for developers who prefer local lookups over API calls.
 type: Index
-image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 url: https://raw.githubusercontent.com/api-evangelist/maxmind/refs/heads/main/apis.yml
 created: '2026-06-12'
 modified: '2026-06-12'
@@ -34,7 +34,7 @@ apis:
       geo-targeting, content localization, and compliance use cases where city
       precision is not required. Queries are billed at $0.0001 per lookup using
       MaxMind's shared credit system.
-    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     humanURL: https://dev.maxmind.com/geoip/docs/web-services/
     baseURL: https://geoip.maxmind.com
     tags:
@@ -58,7 +58,7 @@ apis:
       subdivisions. Also includes country, ISP, and organization data in a
       single response. Priced at $0.0003 per query and suitable for personalized
       user experiences, targeted advertising, and regional content delivery.
-    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     humanURL: https://dev.maxmind.com/geoip/docs/web-services/
     baseURL: https://geoip.maxmind.com
     tags:
@@ -83,7 +83,7 @@ apis:
       flags. Priced at $0.002 per query, it is designed for fraud prevention,
       security analytics, and advanced audience segmentation where maximum
       enrichment per IP lookup is needed.
-    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     humanURL: https://dev.maxmind.com/geoip/docs/web-services/
     baseURL: https://geoip.maxmind.com
     tags:
@@ -110,7 +110,7 @@ apis:
       affordable entry point into MaxMind's fraud prevention platform and is
       well-suited for high-volume screening where speed and cost efficiency take
       priority over data depth.
-    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     humanURL: https://dev.maxmind.com/minfraud/api-documentation/
     baseURL: https://minfraud.maxmind.com
     tags:
@@ -134,7 +134,7 @@ apis:
       risk factors. At $0.015 per query, it is designed for e-commerce and
       payment platforms that need detailed signals to feed manual review queues
       or custom risk models.
-    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     humanURL: https://dev.maxmind.com/minfraud/api-documentation/
     baseURL: https://minfraud.maxmind.com
     tags:
@@ -160,7 +160,7 @@ apis:
       enabling model interpretability and rule refinement. Priced at $0.020 per
       query and best suited for fraud teams that need explainability alongside
       raw scores.
-    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     humanURL: https://dev.maxmind.com/minfraud/api-documentation/
     baseURL: https://minfraud.maxmind.com
     tags:
