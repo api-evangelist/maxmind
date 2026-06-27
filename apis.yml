@@ -202,7 +202,7 @@ common:
     url: rate-limits/maxmind-rate-limits.yml
   - type: FinOps
     url: finops/maxmind-finops.yml
-  - type: JsonLD
+  - type: JSONLD
     url: json-ld/maxmind-context.jsonld
   - type: BlogPosts
     url: blogs/blogs.json
