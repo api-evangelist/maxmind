@@ -178,6 +178,10 @@ apis:
         url: https://support.maxmind.com/
 
 common:
+  - type: DomainSecurity
+    url: security/maxmind-domain-security.yml
+  - type: Authentication
+    url: authentication/maxmind-authentication.yml
   - type: Website
     url: https://www.maxmind.com/
   - type: Documentation

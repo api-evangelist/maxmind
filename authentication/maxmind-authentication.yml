@@ -1,0 +1,15 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/maxmind-geoip-openapi.yml, openapi/maxmind-minfraud-openapi.yml
+summary:
+  types:
+  - http
+schemes:
+- name: basicAuth
+  type: http
+  scheme: basic
+  description: Use your MaxMind account ID as the username and your license key as the password.
+    All requests must be made over HTTPS.
+  sources:
+  - openapi/maxmind-geoip-openapi.yml
+  - openapi/maxmind-minfraud-openapi.yml
