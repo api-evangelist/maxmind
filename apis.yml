@@ -178,6 +178,8 @@ apis:
         url: https://support.maxmind.com/
 
 common:
+  - type: AgenticAccess
+    url: agentic-access/maxmind-agentic-access.yml
   - type: DomainSecurity
     url: security/maxmind-domain-security.yml
   - type: Authentication
