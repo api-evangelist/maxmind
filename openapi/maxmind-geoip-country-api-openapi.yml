@@ -1,0 +1,269 @@
+openapi: 3.0.3
+info:
+  title: MaxMind GeoIP Web Services GeoIP City GeoIP Country API
+  description: 'MaxMind''s GeoIP web services provide IP geolocation data including country, city, ISP, organization, ASN, connection type, and VPN/proxy detection. Services are available at three tiers: Country, City Plus, and Insights. All endpoints use HTTP Basic Auth with your MaxMind account ID and license key.
+
+    '
+  version: '2.1'
+  contact:
+    name: MaxMind Support
+    url: https://support.maxmind.com/
+  termsOfService: https://www.maxmind.com/en/terms_of_service
+  license:
+    name: MaxMind End User License Agreement
+    url: https://www.maxmind.com/en/end_user_license_agreement
+servers:
+- url: https://geoip.maxmind.com
+  description: MaxMind GeoIP production server
+- url: https://geolite.info
+  description: MaxMind GeoLite production server
+security:
+- basicAuth: []
+tags:
+- name: GeoIP Country
+  description: Country-level IP geolocation lookup
+paths:
+  /geoip/v2.1/country/{ipAddress}:
+    get:
+      operationId: getGeoIPCountry
+      summary: GeoIP Country Lookup
+      description: 'Returns country-level geolocation data for a given IP address, including country name, ISO code, continent, and registered country. Suitable for geo-targeting, content localization, and compliance use cases where city precision is not required. Billed at $0.0001 per lookup.
+
+        '
+      tags:
+      - GeoIP Country
+      parameters:
+      - $ref: '#/components/parameters/ipAddress'
+      responses:
+        '200':
+          description: Successful country lookup response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CountryResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '402':
+          $ref: '#/components/responses/PaymentRequired'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  responses:
+    Forbidden:
+      description: 'The request is forbidden. Your account does not have access to this service, or the IP address is blocked.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    TooManyRequests:
+      description: 'Too many requests have been sent in a given period. Slow down your request rate.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: 'There was an error authenticating the request. Verify your account ID and license key.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    PaymentRequired:
+      description: 'The service requires payment. Check that your account has sufficient credits.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: 'There was an error with the request. Check the code and error fields for details.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: 'No record found for the IP address. The IP address may be invalid or not in the database.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    InternalServerError:
+      description: 'An unexpected error occurred on MaxMind''s servers.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  schemas:
+    LocalizedNames:
+      type: object
+      description: Localized names keyed by locale code (e.g., "en", "de", "fr")
+      additionalProperties:
+        type: string
+      example:
+        en: United States
+        de: Vereinigte Staaten
+    Country:
+      type: object
+      description: Country data for the IP address
+      properties:
+        confidence:
+          type: integer
+          description: Confidence percent (1-99) that the country is correct (Insights only)
+          minimum: 1
+          maximum: 99
+          example: 99
+        geoname_id:
+          type: integer
+          description: GeoNames ID for the country
+          example: 6252001
+        is_in_european_union:
+          type: boolean
+          description: Whether the country is a member of the EU
+          example: false
+        iso_code:
+          type: string
+          description: ISO 3166-1 alpha-2 country code
+          example: US
+        names:
+          $ref: '#/components/schemas/LocalizedNames'
+    CountryResponse:
+      type: object
+      description: Response from the GeoIP Country web service
+      properties:
+        continent:
+          $ref: '#/components/schemas/Continent'
+        country:
+          $ref: '#/components/schemas/Country'
+        maxmind:
+          $ref: '#/components/schemas/MaxMindMeta'
+        registered_country:
+          $ref: '#/components/schemas/RegisteredCountry'
+        represented_country:
+          $ref: '#/components/schemas/RepresentedCountry'
+        traits:
+          $ref: '#/components/schemas/CountryTraits'
+    RepresentedCountry:
+      type: object
+      description: Country that is represented by the IP address (e.g., military)
+      properties:
+        geoname_id:
+          type: integer
+          example: 6252001
+        is_in_european_union:
+          type: boolean
+          example: false
+        iso_code:
+          type: string
+          example: US
+        names:
+          $ref: '#/components/schemas/LocalizedNames'
+        type:
+          type: string
+          description: Type of represented country (e.g., "military", "satellite")
+          example: military
+    Continent:
+      type: object
+      description: Continent data for the IP address
+      properties:
+        code:
+          type: string
+          description: Two-letter continent code
+          example: NA
+        geoname_id:
+          type: integer
+          description: GeoNames ID for the continent
+          example: 6255149
+        names:
+          $ref: '#/components/schemas/LocalizedNames'
+    RegisteredCountry:
+      type: object
+      description: Country where the IP address is registered
+      properties:
+        geoname_id:
+          type: integer
+          example: 6252001
+        is_in_european_union:
+          type: boolean
+          example: false
+        iso_code:
+          type: string
+          example: US
+        names:
+          $ref: '#/components/schemas/LocalizedNames'
+    CountryTraits:
+      type: object
+      description: Traits associated with the IP address (Country tier)
+      properties:
+        ip_address:
+          type: string
+          description: The IP address that was looked up
+          example: 128.101.101.101
+        is_anycast:
+          type: boolean
+          description: Whether the IP is part of an anycast network
+          example: false
+        network:
+          type: string
+          description: CIDR network block associated with the record
+          example: 128.101.101.0/24
+    ErrorResponse:
+      type: object
+      description: Standard error response
+      properties:
+        code:
+          type: string
+          description: Error code
+          example: IP_ADDRESS_INVALID
+        error:
+          type: string
+          description: Human-readable error description
+          example: The value 'foo' is not a valid IP address.
+    MaxMindMeta:
+      type: object
+      description: MaxMind account metadata
+      properties:
+        queries_remaining:
+          type: integer
+          description: Number of queries remaining in the current subscription period
+          example: 123456
+  parameters:
+    ipAddress:
+      name: ipAddress
+      in: path
+      required: true
+      description: 'The IP address you want to look up. Use "me" to look up the IP address of the current connection. Accepts IPv4 (dotted quad) or IPv6 (canonical form per RFC 5952).
+
+        '
+      schema:
+        type: string
+        example: 128.101.101.101
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: 'Use your MaxMind account ID as the username and your license key as the password. All requests must be made over HTTPS.
+
+        '
+externalDocs:
+  description: MaxMind GeoIP Web Services Documentation
+  url: https://dev.maxmind.com/geoip/docs/web-services/
