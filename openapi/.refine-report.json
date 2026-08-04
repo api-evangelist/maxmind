@@ -1,0 +1,24 @@
+{
+  "provider": "maxmind",
+  "sources": [
+    "maxmind-geoip-city-api-openapi.yml",
+    "maxmind-geoip-country-api-openapi.yml",
+    "maxmind-geoip-insights-api-openapi.yml",
+    "maxmind-minfraud-factors-api-openapi.yml",
+    "maxmind-minfraud-insights-api-openapi.yml",
+    "maxmind-minfraud-score-api-openapi.yml"
+  ],
+  "outputs": [
+    "maxmind-geoip-city-api-openapi.yml",
+    "maxmind-geoip-country-api-openapi.yml",
+    "maxmind-geoip-insights-api-openapi.yml",
+    "maxmind-minfraud-factors-api-openapi.yml",
+    "maxmind-minfraud-insights-api-openapi.yml",
+    "maxmind-minfraud-score-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
