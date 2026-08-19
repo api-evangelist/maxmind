@@ -1,0 +1,40 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "MaxMind GeoIP Web Services GeoIP City minFraud Score API",
+    "version": "2.1"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "minFraud Score",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "minFraud Score",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://geoip.maxmind.com/minfraud/v2.0/score",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns a single overall transaction risk score (0-99) and an IP risk score for each transaction submitted. Accepts custom inputs and supports custom rules for risk tuning. Priced at $0.005 per query.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

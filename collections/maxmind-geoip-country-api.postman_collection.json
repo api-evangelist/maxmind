@@ -1,0 +1,523 @@
+{
+  "item": [
+    {
+      "id": "2d9c6080-8964-48e7-8413-2b6d67d8ff0a",
+      "name": "GeoIP Country",
+      "description": {
+        "content": "Country-level IP geolocation lookup",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "f109545d-5d55-4012-a74c-feab6f390f4f",
+          "name": "GeoIP Country Lookup",
+          "request": {
+            "name": "GeoIP Country Lookup",
+            "description": {
+              "content": "Returns country-level geolocation data for a given IP address, including country name, ISO code, continent, and registered country. Suitable for geo-targeting, content localization, and compliance use cases where city precision is not required. Billed at $0.0001 per lookup.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "geoip",
+                "v2.1",
+                "country",
+                ":ipAddress"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "ipAddress",
+                  "description": "(Required) The IP address you want to look up. Use \"me\" to look up the IP address of the current connection. Accepts IPv4 (dotted quad) or IPv6 (canonical form per RFC 5952).\n"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "5893c967-660e-4cd1-9606-c9d7e6867a5b",
+              "name": "Successful country lookup response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "geoip",
+                    "v2.1",
+                    "country",
+                    ":ipAddress"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ipAddress",
+                      "description": "(Required) The IP address you want to look up. Use \"me\" to look up the IP address of the current connection. Accepts IPv4 (dotted quad) or IPv6 (canonical form per RFC 5952).\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"continent\": {\n    \"code\": \"NA\",\n    \"geoname_id\": 6255149,\n    \"names\": {\n      \"en\": \"United States\",\n      \"de\": \"Vereinigte Staaten\"\n    }\n  },\n  \"country\": {\n    \"confidence\": 99,\n    \"geoname_id\": 6252001,\n    \"is_in_european_union\": false,\n    \"iso_code\": \"US\",\n    \"names\": {\n      \"en\": \"United States\",\n      \"de\": \"Vereinigte Staaten\"\n    }\n  },\n  \"maxmind\": {\n    \"queries_remaining\": 123456\n  },\n  \"registered_country\": {\n    \"geoname_id\": 6252001,\n    \"is_in_european_union\": false,\n    \"iso_code\": \"US\",\n    \"names\": {\n      \"en\": \"United States\",\n      \"de\": \"Vereinigte Staaten\"\n    }\n  },\n  \"represented_country\": {\n    \"geoname_id\": 6252001,\n    \"is_in_european_union\": false,\n    \"iso_code\": \"US\",\n    \"names\": {\n      \"en\": \"United States\",\n      \"de\": \"Vereinigte Staaten\"\n    },\n    \"type\": \"military\"\n  },\n  \"traits\": {\n    \"ip_address\": \"128.101.101.101\",\n    \"is_anycast\": false,\n    \"network\": \"128.101.101.0/24\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "72886057-e483-4f90-9cc6-4014e45aa356",
+              "name": "There was an error with the request. Check the code and error fields for details.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "geoip",
+                    "v2.1",
+                    "country",
+                    ":ipAddress"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ipAddress",
+                      "description": "(Required) The IP address you want to look up. Use \"me\" to look up the IP address of the current connection. Accepts IPv4 (dotted quad) or IPv6 (canonical form per RFC 5952).\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"IP_ADDRESS_INVALID\",\n  \"error\": \"The value 'foo' is not a valid IP address.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dccb1e3b-074b-46c7-adfe-44bd1b0263ac",
+              "name": "There was an error authenticating the request. Verify your account ID and license key.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "geoip",
+                    "v2.1",
+                    "country",
+                    ":ipAddress"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ipAddress",
+                      "description": "(Required) The IP address you want to look up. Use \"me\" to look up the IP address of the current connection. Accepts IPv4 (dotted quad) or IPv6 (canonical form per RFC 5952).\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"IP_ADDRESS_INVALID\",\n  \"error\": \"The value 'foo' is not a valid IP address.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b3def552-f7c4-4189-85e5-61e262d90bbf",
+              "name": "The service requires payment. Check that your account has sufficient credits.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "geoip",
+                    "v2.1",
+                    "country",
+                    ":ipAddress"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ipAddress",
+                      "description": "(Required) The IP address you want to look up. Use \"me\" to look up the IP address of the current connection. Accepts IPv4 (dotted quad) or IPv6 (canonical form per RFC 5952).\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Payment Required",
+              "code": 402,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"IP_ADDRESS_INVALID\",\n  \"error\": \"The value 'foo' is not a valid IP address.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7a32dd40-c31b-4628-9ade-068ad2259147",
+              "name": "The request is forbidden. Your account does not have access to this service, or the IP address is blocked.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "geoip",
+                    "v2.1",
+                    "country",
+                    ":ipAddress"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ipAddress",
+                      "description": "(Required) The IP address you want to look up. Use \"me\" to look up the IP address of the current connection. Accepts IPv4 (dotted quad) or IPv6 (canonical form per RFC 5952).\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"IP_ADDRESS_INVALID\",\n  \"error\": \"The value 'foo' is not a valid IP address.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6864244b-a0a9-4331-8db0-05dfeb52ca22",
+              "name": "No record found for the IP address. The IP address may be invalid or not in the database.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "geoip",
+                    "v2.1",
+                    "country",
+                    ":ipAddress"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ipAddress",
+                      "description": "(Required) The IP address you want to look up. Use \"me\" to look up the IP address of the current connection. Accepts IPv4 (dotted quad) or IPv6 (canonical form per RFC 5952).\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"IP_ADDRESS_INVALID\",\n  \"error\": \"The value 'foo' is not a valid IP address.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "483ea7d5-af3c-4015-b6a8-2f94efc7b6f5",
+              "name": "Too many requests have been sent in a given period. Slow down your request rate.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "geoip",
+                    "v2.1",
+                    "country",
+                    ":ipAddress"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ipAddress",
+                      "description": "(Required) The IP address you want to look up. Use \"me\" to look up the IP address of the current connection. Accepts IPv4 (dotted quad) or IPv6 (canonical form per RFC 5952).\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"IP_ADDRESS_INVALID\",\n  \"error\": \"The value 'foo' is not a valid IP address.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dc1a8ddd-fbe9-4a1a-93a8-a220bd421d7a",
+              "name": "An unexpected error occurred on MaxMind's servers.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "geoip",
+                    "v2.1",
+                    "country",
+                    ":ipAddress"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ipAddress",
+                      "description": "(Required) The IP address you want to look up. Use \"me\" to look up the IP address of the current connection. Accepts IPv4 (dotted quad) or IPv6 (canonical form per RFC 5952).\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"IP_ADDRESS_INVALID\",\n  \"error\": \"The value 'foo' is not a valid IP address.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://geoip.maxmind.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "78c8ebd0-bc6b-48f5-ae27-bff6ee03a753",
+    "name": "MaxMind GeoIP Web Services GeoIP City GeoIP Country API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "MaxMind's GeoIP web services provide IP geolocation data including country, city, ISP, organization, ASN, connection type, and VPN/proxy detection. Services are available at three tiers: Country, City Plus, and Insights. All endpoints use HTTP Basic Auth with your MaxMind account ID and license key.\n\n\nContact Support:\n Name: MaxMind Support",
+      "type": "text/plain"
+    }
+  }
+}

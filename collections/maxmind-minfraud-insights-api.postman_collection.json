@@ -1,0 +1,519 @@
+{
+  "item": [
+    {
+      "id": "b8a62424-571d-4b3b-832a-ed05856b4693",
+      "name": "minFraud Insights",
+      "description": {
+        "content": "Extended fraud scoring with over 80 data points on IPs, emails, devices, and payment cards\n",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "0d1fe789-7bed-455e-a5cb-a424d601abc7",
+          "name": "minFraud Insights",
+          "request": {
+            "name": "minFraud Insights",
+            "description": {
+              "content": "Extends minFraud Score with over 80 data points on IPs, email addresses, devices, and payment cards, plus IP risk reasons that explain contributing risk factors. Priced at $0.015 per query.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "minfraud",
+                "v2.0",
+                "insights"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"device\": {\n    \"ip_address\": \"<string>\",\n    \"user_agent\": \"<string>\",\n    \"accept_language\": \"<string>\",\n    \"session_age\": \"<double>\",\n    \"session_id\": \"<string>\",\n    \"tracking_token\": \"<string>\"\n  },\n  \"event\": {\n    \"transaction_id\": \"<string>\",\n    \"shop_id\": \"<string>\",\n    \"time\": \"<dateTime>\",\n    \"type\": \"<string>\",\n    \"party\": \"<string>\"\n  },\n  \"account\": {\n    \"user_id\": \"<string>\",\n    \"username_md5\": \"<string>\"\n  },\n  \"email\": {\n    \"address\": \"<string>\",\n    \"domain\": \"<string>\"\n  },\n  \"billing\": {\n    \"first_name\": \"<string>\",\n    \"last_name\": \"<string>\",\n    \"company\": \"<string>\",\n    \"address\": \"<string>\",\n    \"address_2\": \"<string>\",\n    \"city\": \"<string>\",\n    \"region\": \"<string>\",\n    \"country\": \"<string>\",\n    \"postal\": \"<string>\",\n    \"phone_number\": \"<string>\",\n    \"phone_country_code\": \"<string>\"\n  },\n  \"shipping\": {\n    \"first_name\": \"<string>\",\n    \"last_name\": \"<string>\",\n    \"company\": \"<string>\",\n    \"address\": \"<string>\",\n    \"address_2\": \"<string>\",\n    \"city\": \"<string>\",\n    \"region\": \"<string>\",\n    \"country\": \"<string>\",\n    \"postal\": \"<string>\",\n    \"phone_number\": \"<string>\",\n    \"phone_country_code\": \"<string>\",\n    \"delivery_speed\": \"<string>\"\n  },\n  \"payment\": {\n    \"method\": \"<string>\",\n    \"processor\": \"<string>\",\n    \"was_authorized\": \"<boolean>\",\n    \"decline_code\": \"<string>\"\n  },\n  \"credit_card\": {\n    \"issuer_id_number\": \"<string>\",\n    \"last_digits\": \"<string>\",\n    \"token\": \"<string>\",\n    \"bank_name\": \"<string>\",\n    \"bank_phone_country_code\": \"<string>\",\n    \"bank_phone_number\": \"<string>\",\n    \"country\": \"<string>\",\n    \"avs_result\": \"<string>\",\n    \"cvv_result\": \"<string>\",\n    \"was_3d_secure_successful\": \"<boolean>\"\n  },\n  \"order\": {\n    \"amount\": \"<double>\",\n    \"currency\": \"<string>\",\n    \"discount_code\": \"<string>\",\n    \"affiliate_id\": \"<string>\",\n    \"subaffiliate_id\": \"<string>\",\n    \"referrer_uri\": \"<string>\",\n    \"is_gift\": \"<boolean>\",\n    \"has_gift_message\": \"<boolean>\"\n  },\n  \"shopping_cart\": [\n    {\n      \"category\": \"<string>\",\n      \"item_id\": \"<string>\",\n      \"quantity\": \"<integer>\",\n      \"price\": \"<double>\"\n    },\n    {\n      \"category\": \"<string>\",\n      \"item_id\": \"<string>\",\n      \"quantity\": \"<integer>\",\n      \"price\": \"<double>\"\n    }\n  ],\n  \"custom_inputs\": {\n    \"key_0\": \"<boolean>\",\n    \"key_1\": \"<boolean>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "ff3f60a8-2a7e-496f-a840-c7f20f5744c7",
+              "name": "Successful insights response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "minfraud",
+                    "v2.0",
+                    "insights"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"device\": {\n    \"ip_address\": \"128.101.101.101\",\n    \"user_agent\": \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36\",\n    \"accept_language\": \"en-US,en;q=0.9\",\n    \"session_age\": 3600.5,\n    \"session_id\": \"abc123def456\",\n    \"tracking_token\": \"<string>\"\n  },\n  \"event\": {\n    \"transaction_id\": \"txn_abc123\",\n    \"shop_id\": \"shop_001\",\n    \"time\": \"2024-03-15T10:30:00Z\",\n    \"type\": \"purchase\",\n    \"party\": \"customer\"\n  },\n  \"account\": {\n    \"user_id\": \"user_12345\",\n    \"username_md5\": \"4f9726678491da7f0aa33f453ae38ba8\"\n  },\n  \"email\": {\n    \"address\": \"user@example.com\",\n    \"domain\": \"example.com\"\n  },\n  \"billing\": {\n    \"first_name\": \"John\",\n    \"last_name\": \"Doe\",\n    \"company\": \"Acme Corp\",\n    \"address\": \"1234 Main St\",\n    \"address_2\": \"Suite 100\",\n    \"city\": \"Minneapolis\",\n    \"region\": \"MN\",\n    \"country\": \"US\",\n    \"postal\": \"55420\",\n    \"phone_number\": \"612-555-0100\",\n    \"phone_country_code\": \"1\"\n  },\n  \"shipping\": {\n    \"first_name\": \"John\",\n    \"last_name\": \"Doe\",\n    \"company\": \"Acme Corp\",\n    \"address\": \"1234 Main St\",\n    \"address_2\": \"Suite 100\",\n    \"city\": \"Minneapolis\",\n    \"region\": \"MN\",\n    \"country\": \"US\",\n    \"postal\": \"55420\",\n    \"phone_number\": \"612-555-0100\",\n    \"phone_country_code\": \"1\",\n    \"delivery_speed\": \"standard\"\n  },\n  \"payment\": {\n    \"method\": \"card\",\n    \"processor\": \"stripe\",\n    \"was_authorized\": true,\n    \"decline_code\": \"insufficient_funds\"\n  },\n  \"credit_card\": {\n    \"issuer_id_number\": \"411111\",\n    \"last_digits\": \"1111\",\n    \"token\": \"tok_abc123def456\",\n    \"bank_name\": \"US Bank\",\n    \"bank_phone_country_code\": \"1\",\n    \"bank_phone_number\": \"800-555-1234\",\n    \"country\": \"US\",\n    \"avs_result\": \"Y\",\n    \"cvv_result\": \"M\",\n    \"was_3d_secure_successful\": true\n  },\n  \"order\": {\n    \"amount\": 123.45,\n    \"currency\": \"USD\",\n    \"discount_code\": \"SUMMER20,LOYALTY5\",\n    \"affiliate_id\": \"aff_001\",\n    \"subaffiliate_id\": \"subaff_002\",\n    \"referrer_uri\": \"https://example.com/products\",\n    \"is_gift\": false,\n    \"has_gift_message\": false\n  },\n  \"shopping_cart\": [\n    {\n      \"category\": \"Electronics\",\n      \"item_id\": \"sku_12345\",\n      \"quantity\": 2,\n      \"price\": 49.99\n    },\n    {\n      \"category\": \"Electronics\",\n      \"item_id\": \"sku_12345\",\n      \"quantity\": 2,\n      \"price\": 49.99\n    }\n  ],\n  \"custom_inputs\": {\n    \"key_0\": \"<boolean>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"7835b099-d385-4e5b-969e-7df26181d73c\",\n  \"risk_score\": 0.01,\n  \"funds_remaining\": 125,\n  \"queries_remaining\": 5000,\n  \"ip_address\": {\n    \"risk\": 0.5,\n    \"city\": {\n      \"names\": {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\"\n      }\n    },\n    \"continent\": {\n      \"code\": \"string\",\n      \"names\": {\n        \"key_0\": \"string\"\n      }\n    },\n    \"country\": {\n      \"is_high_risk\": true,\n      \"iso_code\": \"string\",\n      \"names\": {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\",\n        \"key_2\": \"string\",\n        \"key_3\": \"string\"\n      }\n    },\n    \"location\": {\n      \"local_time\": \"string\",\n      \"time_zone\": \"string\"\n    },\n    \"postal\": {\n      \"code\": \"string\"\n    },\n    \"registered_country\": {\n      \"iso_code\": \"string\",\n      \"names\": {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\",\n        \"key_2\": \"string\"\n      }\n    },\n    \"represented_country\": {\n      \"iso_code\": \"string\",\n      \"names\": {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\",\n        \"key_2\": \"string\",\n        \"key_3\": \"string\",\n        \"key_4\": \"string\"\n      }\n    },\n    \"risk_reasons\": [\n      {\n        \"code\": \"ANONYMOUS_IP\",\n        \"reason\": \"The IP address is associated with an anonymous network.\"\n      },\n      {\n        \"code\": \"ANONYMOUS_IP\",\n        \"reason\": \"The IP address is associated with an anonymous network.\"\n      }\n    ],\n    \"subdivisions\": [\n      {\n        \"iso_code\": \"string\",\n        \"names\": {\n          \"key_0\": \"string\",\n          \"key_1\": \"string\",\n          \"key_2\": \"string\"\n        }\n      },\n      {\n        \"iso_code\": \"string\",\n        \"names\": {\n          \"key_0\": \"string\"\n        }\n      }\n    ],\n    \"traits\": {\n      \"ip_address\": \"string\",\n      \"network\": \"string\",\n      \"autonomous_system_number\": 8815,\n      \"autonomous_system_organization\": \"string\",\n      \"connection_type\": \"string\",\n      \"domain\": \"string\",\n      \"is_anonymous\": true,\n      \"is_anonymous_vpn\": false,\n      \"is_hosting_provider\": false,\n      \"is_public_proxy\": true,\n      \"is_residential_proxy\": false,\n      \"is_tor_exit_node\": false,\n      \"isp\": \"string\",\n      \"organization\": \"string\",\n      \"user_type\": \"string\"\n    }\n  },\n  \"credit_card\": {\n    \"brand\": \"Visa\",\n    \"country\": \"US\",\n    \"is_business\": false,\n    \"is_issued_in_billing_address_country\": true,\n    \"is_prepaid\": false,\n    \"is_virtual\": false,\n    \"issuer\": {\n      \"name\": \"US Bank\",\n      \"phone_number\": \"800-555-1234\",\n      \"matches_provided_name\": true,\n      \"matches_provided_phone_number\": true\n    },\n    \"type\": \"credit\"\n  },\n  \"device\": {\n    \"confidence\": 99,\n    \"id\": \"7835b099-d385-4e5b-969e-7df26181d73c\",\n    \"last_seen\": \"2024-01-15T10:00:00Z\",\n    \"local_time\": \"2024-01-15T10:00:00-06:00\"\n  },\n  \"email\": {\n    \"domain\": {\n      \"classification\": \"free\",\n      \"first_seen\": \"2010-01-01\",\n      \"risk\": 0.5,\n      \"visit\": {\n        \"has_redirect\": false,\n        \"last_visited_on\": \"string\",\n        \"status\": \"string\"\n      },\n      \"volume\": 3794.7374002891665\n    },\n    \"first_seen\": \"2018-06-15\",\n    \"is_disposable\": false,\n    \"is_free\": false,\n    \"is_high_risk\": false\n  },\n  \"shipping_address\": {\n    \"distance_to_ip_location\": 15,\n    \"is_in_ip_country\": true,\n    \"is_postal_in_city\": true,\n    \"latitude\": 44.9532,\n    \"longitude\": -93.0875,\n    \"distance_to_billing_address\": 0,\n    \"is_high_risk\": false\n  },\n  \"shipping_phone\": {\n    \"country\": \"US\",\n    \"is_voip\": false,\n    \"matches_postal\": true,\n    \"network_operator\": \"US Cellular\",\n    \"number_type\": \"landline\"\n  },\n  \"billing_address\": {\n    \"distance_to_ip_location\": 15,\n    \"is_in_ip_country\": true,\n    \"is_postal_in_city\": true,\n    \"latitude\": 44.9532,\n    \"longitude\": -93.0875\n  },\n  \"billing_phone\": {\n    \"country\": \"US\",\n    \"is_voip\": false,\n    \"matches_postal\": true,\n    \"network_operator\": \"US Cellular\",\n    \"number_type\": \"landline\"\n  },\n  \"disposition\": {\n    \"action\": \"accept\",\n    \"reason\": \"default\",\n    \"rule_label\": \"low_risk_rule\"\n  },\n  \"warnings\": [\n    {\n      \"code\": \"EMAIL_ADDRESS_INVALID\",\n      \"input_pointer\": \"/email/address\",\n      \"warning\": \"The email address supplied is not valid.\"\n    },\n    {\n      \"code\": \"EMAIL_ADDRESS_INVALID\",\n      \"input_pointer\": \"/email/address\",\n      \"warning\": \"The email address supplied is not valid.\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fc13038f-ed02-4dc0-8b70-b48a1726c604",
+              "name": "There was an error with the request body. Check the code and error fields for details about the specific problem.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "minfraud",
+                    "v2.0",
+                    "insights"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"device\": {\n    \"ip_address\": \"128.101.101.101\",\n    \"user_agent\": \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36\",\n    \"accept_language\": \"en-US,en;q=0.9\",\n    \"session_age\": 3600.5,\n    \"session_id\": \"abc123def456\",\n    \"tracking_token\": \"<string>\"\n  },\n  \"event\": {\n    \"transaction_id\": \"txn_abc123\",\n    \"shop_id\": \"shop_001\",\n    \"time\": \"2024-03-15T10:30:00Z\",\n    \"type\": \"purchase\",\n    \"party\": \"customer\"\n  },\n  \"account\": {\n    \"user_id\": \"user_12345\",\n    \"username_md5\": \"4f9726678491da7f0aa33f453ae38ba8\"\n  },\n  \"email\": {\n    \"address\": \"user@example.com\",\n    \"domain\": \"example.com\"\n  },\n  \"billing\": {\n    \"first_name\": \"John\",\n    \"last_name\": \"Doe\",\n    \"company\": \"Acme Corp\",\n    \"address\": \"1234 Main St\",\n    \"address_2\": \"Suite 100\",\n    \"city\": \"Minneapolis\",\n    \"region\": \"MN\",\n    \"country\": \"US\",\n    \"postal\": \"55420\",\n    \"phone_number\": \"612-555-0100\",\n    \"phone_country_code\": \"1\"\n  },\n  \"shipping\": {\n    \"first_name\": \"John\",\n    \"last_name\": \"Doe\",\n    \"company\": \"Acme Corp\",\n    \"address\": \"1234 Main St\",\n    \"address_2\": \"Suite 100\",\n    \"city\": \"Minneapolis\",\n    \"region\": \"MN\",\n    \"country\": \"US\",\n    \"postal\": \"55420\",\n    \"phone_number\": \"612-555-0100\",\n    \"phone_country_code\": \"1\",\n    \"delivery_speed\": \"standard\"\n  },\n  \"payment\": {\n    \"method\": \"card\",\n    \"processor\": \"stripe\",\n    \"was_authorized\": true,\n    \"decline_code\": \"insufficient_funds\"\n  },\n  \"credit_card\": {\n    \"issuer_id_number\": \"411111\",\n    \"last_digits\": \"1111\",\n    \"token\": \"tok_abc123def456\",\n    \"bank_name\": \"US Bank\",\n    \"bank_phone_country_code\": \"1\",\n    \"bank_phone_number\": \"800-555-1234\",\n    \"country\": \"US\",\n    \"avs_result\": \"Y\",\n    \"cvv_result\": \"M\",\n    \"was_3d_secure_successful\": true\n  },\n  \"order\": {\n    \"amount\": 123.45,\n    \"currency\": \"USD\",\n    \"discount_code\": \"SUMMER20,LOYALTY5\",\n    \"affiliate_id\": \"aff_001\",\n    \"subaffiliate_id\": \"subaff_002\",\n    \"referrer_uri\": \"https://example.com/products\",\n    \"is_gift\": false,\n    \"has_gift_message\": false\n  },\n  \"shopping_cart\": [\n    {\n      \"category\": \"Electronics\",\n      \"item_id\": \"sku_12345\",\n      \"quantity\": 2,\n      \"price\": 49.99\n    },\n    {\n      \"category\": \"Electronics\",\n      \"item_id\": \"sku_12345\",\n      \"quantity\": 2,\n      \"price\": 49.99\n    }\n  ],\n  \"custom_inputs\": {\n    \"key_0\": \"<boolean>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"JSON_INVALID\",\n  \"error\": \"The request body could not be decoded as JSON.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "096ff546-e4d2-4036-a832-9485c68d40a6",
+              "name": "Authentication failed. Verify your MaxMind account ID and license key.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "minfraud",
+                    "v2.0",
+                    "insights"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"device\": {\n    \"ip_address\": \"128.101.101.101\",\n    \"user_agent\": \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36\",\n    \"accept_language\": \"en-US,en;q=0.9\",\n    \"session_age\": 3600.5,\n    \"session_id\": \"abc123def456\",\n    \"tracking_token\": \"<string>\"\n  },\n  \"event\": {\n    \"transaction_id\": \"txn_abc123\",\n    \"shop_id\": \"shop_001\",\n    \"time\": \"2024-03-15T10:30:00Z\",\n    \"type\": \"purchase\",\n    \"party\": \"customer\"\n  },\n  \"account\": {\n    \"user_id\": \"user_12345\",\n    \"username_md5\": \"4f9726678491da7f0aa33f453ae38ba8\"\n  },\n  \"email\": {\n    \"address\": \"user@example.com\",\n    \"domain\": \"example.com\"\n  },\n  \"billing\": {\n    \"first_name\": \"John\",\n    \"last_name\": \"Doe\",\n    \"company\": \"Acme Corp\",\n    \"address\": \"1234 Main St\",\n    \"address_2\": \"Suite 100\",\n    \"city\": \"Minneapolis\",\n    \"region\": \"MN\",\n    \"country\": \"US\",\n    \"postal\": \"55420\",\n    \"phone_number\": \"612-555-0100\",\n    \"phone_country_code\": \"1\"\n  },\n  \"shipping\": {\n    \"first_name\": \"John\",\n    \"last_name\": \"Doe\",\n    \"company\": \"Acme Corp\",\n    \"address\": \"1234 Main St\",\n    \"address_2\": \"Suite 100\",\n    \"city\": \"Minneapolis\",\n    \"region\": \"MN\",\n    \"country\": \"US\",\n    \"postal\": \"55420\",\n    \"phone_number\": \"612-555-0100\",\n    \"phone_country_code\": \"1\",\n    \"delivery_speed\": \"standard\"\n  },\n  \"payment\": {\n    \"method\": \"card\",\n    \"processor\": \"stripe\",\n    \"was_authorized\": true,\n    \"decline_code\": \"insufficient_funds\"\n  },\n  \"credit_card\": {\n    \"issuer_id_number\": \"411111\",\n    \"last_digits\": \"1111\",\n    \"token\": \"tok_abc123def456\",\n    \"bank_name\": \"US Bank\",\n    \"bank_phone_country_code\": \"1\",\n    \"bank_phone_number\": \"800-555-1234\",\n    \"country\": \"US\",\n    \"avs_result\": \"Y\",\n    \"cvv_result\": \"M\",\n    \"was_3d_secure_successful\": true\n  },\n  \"order\": {\n    \"amount\": 123.45,\n    \"currency\": \"USD\",\n    \"discount_code\": \"SUMMER20,LOYALTY5\",\n    \"affiliate_id\": \"aff_001\",\n    \"subaffiliate_id\": \"subaff_002\",\n    \"referrer_uri\": \"https://example.com/products\",\n    \"is_gift\": false,\n    \"has_gift_message\": false\n  },\n  \"shopping_cart\": [\n    {\n      \"category\": \"Electronics\",\n      \"item_id\": \"sku_12345\",\n      \"quantity\": 2,\n      \"price\": 49.99\n    },\n    {\n      \"category\": \"Electronics\",\n      \"item_id\": \"sku_12345\",\n      \"quantity\": 2,\n      \"price\": 49.99\n    }\n  ],\n  \"custom_inputs\": {\n    \"key_0\": \"<boolean>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"JSON_INVALID\",\n  \"error\": \"The request body could not be decoded as JSON.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "24e5c21c-bc3e-4633-86e9-9c7a3c58faa4",
+              "name": "Insufficient funds in your MaxMind account. Purchase additional transaction credits.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "minfraud",
+                    "v2.0",
+                    "insights"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"device\": {\n    \"ip_address\": \"128.101.101.101\",\n    \"user_agent\": \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36\",\n    \"accept_language\": \"en-US,en;q=0.9\",\n    \"session_age\": 3600.5,\n    \"session_id\": \"abc123def456\",\n    \"tracking_token\": \"<string>\"\n  },\n  \"event\": {\n    \"transaction_id\": \"txn_abc123\",\n    \"shop_id\": \"shop_001\",\n    \"time\": \"2024-03-15T10:30:00Z\",\n    \"type\": \"purchase\",\n    \"party\": \"customer\"\n  },\n  \"account\": {\n    \"user_id\": \"user_12345\",\n    \"username_md5\": \"4f9726678491da7f0aa33f453ae38ba8\"\n  },\n  \"email\": {\n    \"address\": \"user@example.com\",\n    \"domain\": \"example.com\"\n  },\n  \"billing\": {\n    \"first_name\": \"John\",\n    \"last_name\": \"Doe\",\n    \"company\": \"Acme Corp\",\n    \"address\": \"1234 Main St\",\n    \"address_2\": \"Suite 100\",\n    \"city\": \"Minneapolis\",\n    \"region\": \"MN\",\n    \"country\": \"US\",\n    \"postal\": \"55420\",\n    \"phone_number\": \"612-555-0100\",\n    \"phone_country_code\": \"1\"\n  },\n  \"shipping\": {\n    \"first_name\": \"John\",\n    \"last_name\": \"Doe\",\n    \"company\": \"Acme Corp\",\n    \"address\": \"1234 Main St\",\n    \"address_2\": \"Suite 100\",\n    \"city\": \"Minneapolis\",\n    \"region\": \"MN\",\n    \"country\": \"US\",\n    \"postal\": \"55420\",\n    \"phone_number\": \"612-555-0100\",\n    \"phone_country_code\": \"1\",\n    \"delivery_speed\": \"standard\"\n  },\n  \"payment\": {\n    \"method\": \"card\",\n    \"processor\": \"stripe\",\n    \"was_authorized\": true,\n    \"decline_code\": \"insufficient_funds\"\n  },\n  \"credit_card\": {\n    \"issuer_id_number\": \"411111\",\n    \"last_digits\": \"1111\",\n    \"token\": \"tok_abc123def456\",\n    \"bank_name\": \"US Bank\",\n    \"bank_phone_country_code\": \"1\",\n    \"bank_phone_number\": \"800-555-1234\",\n    \"country\": \"US\",\n    \"avs_result\": \"Y\",\n    \"cvv_result\": \"M\",\n    \"was_3d_secure_successful\": true\n  },\n  \"order\": {\n    \"amount\": 123.45,\n    \"currency\": \"USD\",\n    \"discount_code\": \"SUMMER20,LOYALTY5\",\n    \"affiliate_id\": \"aff_001\",\n    \"subaffiliate_id\": \"subaff_002\",\n    \"referrer_uri\": \"https://example.com/products\",\n    \"is_gift\": false,\n    \"has_gift_message\": false\n  },\n  \"shopping_cart\": [\n    {\n      \"category\": \"Electronics\",\n      \"item_id\": \"sku_12345\",\n      \"quantity\": 2,\n      \"price\": 49.99\n    },\n    {\n      \"category\": \"Electronics\",\n      \"item_id\": \"sku_12345\",\n      \"quantity\": 2,\n      \"price\": 49.99\n    }\n  ],\n  \"custom_inputs\": {\n    \"key_0\": \"<boolean>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Payment Required",
+              "code": 402,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"JSON_INVALID\",\n  \"error\": \"The request body could not be decoded as JSON.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c5583932-dae1-44f1-9931-5ce1db4e4dab",
+              "name": "The request is forbidden. Your account may not be enabled for this service or the IP is blocked.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "minfraud",
+                    "v2.0",
+                    "insights"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"device\": {\n    \"ip_address\": \"128.101.101.101\",\n    \"user_agent\": \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36\",\n    \"accept_language\": \"en-US,en;q=0.9\",\n    \"session_age\": 3600.5,\n    \"session_id\": \"abc123def456\",\n    \"tracking_token\": \"<string>\"\n  },\n  \"event\": {\n    \"transaction_id\": \"txn_abc123\",\n    \"shop_id\": \"shop_001\",\n    \"time\": \"2024-03-15T10:30:00Z\",\n    \"type\": \"purchase\",\n    \"party\": \"customer\"\n  },\n  \"account\": {\n    \"user_id\": \"user_12345\",\n    \"username_md5\": \"4f9726678491da7f0aa33f453ae38ba8\"\n  },\n  \"email\": {\n    \"address\": \"user@example.com\",\n    \"domain\": \"example.com\"\n  },\n  \"billing\": {\n    \"first_name\": \"John\",\n    \"last_name\": \"Doe\",\n    \"company\": \"Acme Corp\",\n    \"address\": \"1234 Main St\",\n    \"address_2\": \"Suite 100\",\n    \"city\": \"Minneapolis\",\n    \"region\": \"MN\",\n    \"country\": \"US\",\n    \"postal\": \"55420\",\n    \"phone_number\": \"612-555-0100\",\n    \"phone_country_code\": \"1\"\n  },\n  \"shipping\": {\n    \"first_name\": \"John\",\n    \"last_name\": \"Doe\",\n    \"company\": \"Acme Corp\",\n    \"address\": \"1234 Main St\",\n    \"address_2\": \"Suite 100\",\n    \"city\": \"Minneapolis\",\n    \"region\": \"MN\",\n    \"country\": \"US\",\n    \"postal\": \"55420\",\n    \"phone_number\": \"612-555-0100\",\n    \"phone_country_code\": \"1\",\n    \"delivery_speed\": \"standard\"\n  },\n  \"payment\": {\n    \"method\": \"card\",\n    \"processor\": \"stripe\",\n    \"was_authorized\": true,\n    \"decline_code\": \"insufficient_funds\"\n  },\n  \"credit_card\": {\n    \"issuer_id_number\": \"411111\",\n    \"last_digits\": \"1111\",\n    \"token\": \"tok_abc123def456\",\n    \"bank_name\": \"US Bank\",\n    \"bank_phone_country_code\": \"1\",\n    \"bank_phone_number\": \"800-555-1234\",\n    \"country\": \"US\",\n    \"avs_result\": \"Y\",\n    \"cvv_result\": \"M\",\n    \"was_3d_secure_successful\": true\n  },\n  \"order\": {\n    \"amount\": 123.45,\n    \"currency\": \"USD\",\n    \"discount_code\": \"SUMMER20,LOYALTY5\",\n    \"affiliate_id\": \"aff_001\",\n    \"subaffiliate_id\": \"subaff_002\",\n    \"referrer_uri\": \"https://example.com/products\",\n    \"is_gift\": false,\n    \"has_gift_message\": false\n  },\n  \"shopping_cart\": [\n    {\n      \"category\": \"Electronics\",\n      \"item_id\": \"sku_12345\",\n      \"quantity\": 2,\n      \"price\": 49.99\n    },\n    {\n      \"category\": \"Electronics\",\n      \"item_id\": \"sku_12345\",\n      \"quantity\": 2,\n      \"price\": 49.99\n    }\n  ],\n  \"custom_inputs\": {\n    \"key_0\": \"<boolean>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"JSON_INVALID\",\n  \"error\": \"The request body could not be decoded as JSON.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "55208ff5-590d-4bb7-91b7-34c0f42da9da",
+              "name": "The requested resource was not found.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "minfraud",
+                    "v2.0",
+                    "insights"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"device\": {\n    \"ip_address\": \"128.101.101.101\",\n    \"user_agent\": \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36\",\n    \"accept_language\": \"en-US,en;q=0.9\",\n    \"session_age\": 3600.5,\n    \"session_id\": \"abc123def456\",\n    \"tracking_token\": \"<string>\"\n  },\n  \"event\": {\n    \"transaction_id\": \"txn_abc123\",\n    \"shop_id\": \"shop_001\",\n    \"time\": \"2024-03-15T10:30:00Z\",\n    \"type\": \"purchase\",\n    \"party\": \"customer\"\n  },\n  \"account\": {\n    \"user_id\": \"user_12345\",\n    \"username_md5\": \"4f9726678491da7f0aa33f453ae38ba8\"\n  },\n  \"email\": {\n    \"address\": \"user@example.com\",\n    \"domain\": \"example.com\"\n  },\n  \"billing\": {\n    \"first_name\": \"John\",\n    \"last_name\": \"Doe\",\n    \"company\": \"Acme Corp\",\n    \"address\": \"1234 Main St\",\n    \"address_2\": \"Suite 100\",\n    \"city\": \"Minneapolis\",\n    \"region\": \"MN\",\n    \"country\": \"US\",\n    \"postal\": \"55420\",\n    \"phone_number\": \"612-555-0100\",\n    \"phone_country_code\": \"1\"\n  },\n  \"shipping\": {\n    \"first_name\": \"John\",\n    \"last_name\": \"Doe\",\n    \"company\": \"Acme Corp\",\n    \"address\": \"1234 Main St\",\n    \"address_2\": \"Suite 100\",\n    \"city\": \"Minneapolis\",\n    \"region\": \"MN\",\n    \"country\": \"US\",\n    \"postal\": \"55420\",\n    \"phone_number\": \"612-555-0100\",\n    \"phone_country_code\": \"1\",\n    \"delivery_speed\": \"standard\"\n  },\n  \"payment\": {\n    \"method\": \"card\",\n    \"processor\": \"stripe\",\n    \"was_authorized\": true,\n    \"decline_code\": \"insufficient_funds\"\n  },\n  \"credit_card\": {\n    \"issuer_id_number\": \"411111\",\n    \"last_digits\": \"1111\",\n    \"token\": \"tok_abc123def456\",\n    \"bank_name\": \"US Bank\",\n    \"bank_phone_country_code\": \"1\",\n    \"bank_phone_number\": \"800-555-1234\",\n    \"country\": \"US\",\n    \"avs_result\": \"Y\",\n    \"cvv_result\": \"M\",\n    \"was_3d_secure_successful\": true\n  },\n  \"order\": {\n    \"amount\": 123.45,\n    \"currency\": \"USD\",\n    \"discount_code\": \"SUMMER20,LOYALTY5\",\n    \"affiliate_id\": \"aff_001\",\n    \"subaffiliate_id\": \"subaff_002\",\n    \"referrer_uri\": \"https://example.com/products\",\n    \"is_gift\": false,\n    \"has_gift_message\": false\n  },\n  \"shopping_cart\": [\n    {\n      \"category\": \"Electronics\",\n      \"item_id\": \"sku_12345\",\n      \"quantity\": 2,\n      \"price\": 49.99\n    },\n    {\n      \"category\": \"Electronics\",\n      \"item_id\": \"sku_12345\",\n      \"quantity\": 2,\n      \"price\": 49.99\n    }\n  ],\n  \"custom_inputs\": {\n    \"key_0\": \"<boolean>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"JSON_INVALID\",\n  \"error\": \"The request body could not be decoded as JSON.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "caf71e86-4a3d-4ff9-9378-f2a8779be802",
+              "name": "Request rate limit exceeded. Reduce your request rate.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "minfraud",
+                    "v2.0",
+                    "insights"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"device\": {\n    \"ip_address\": \"128.101.101.101\",\n    \"user_agent\": \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36\",\n    \"accept_language\": \"en-US,en;q=0.9\",\n    \"session_age\": 3600.5,\n    \"session_id\": \"abc123def456\",\n    \"tracking_token\": \"<string>\"\n  },\n  \"event\": {\n    \"transaction_id\": \"txn_abc123\",\n    \"shop_id\": \"shop_001\",\n    \"time\": \"2024-03-15T10:30:00Z\",\n    \"type\": \"purchase\",\n    \"party\": \"customer\"\n  },\n  \"account\": {\n    \"user_id\": \"user_12345\",\n    \"username_md5\": \"4f9726678491da7f0aa33f453ae38ba8\"\n  },\n  \"email\": {\n    \"address\": \"user@example.com\",\n    \"domain\": \"example.com\"\n  },\n  \"billing\": {\n    \"first_name\": \"John\",\n    \"last_name\": \"Doe\",\n    \"company\": \"Acme Corp\",\n    \"address\": \"1234 Main St\",\n    \"address_2\": \"Suite 100\",\n    \"city\": \"Minneapolis\",\n    \"region\": \"MN\",\n    \"country\": \"US\",\n    \"postal\": \"55420\",\n    \"phone_number\": \"612-555-0100\",\n    \"phone_country_code\": \"1\"\n  },\n  \"shipping\": {\n    \"first_name\": \"John\",\n    \"last_name\": \"Doe\",\n    \"company\": \"Acme Corp\",\n    \"address\": \"1234 Main St\",\n    \"address_2\": \"Suite 100\",\n    \"city\": \"Minneapolis\",\n    \"region\": \"MN\",\n    \"country\": \"US\",\n    \"postal\": \"55420\",\n    \"phone_number\": \"612-555-0100\",\n    \"phone_country_code\": \"1\",\n    \"delivery_speed\": \"standard\"\n  },\n  \"payment\": {\n    \"method\": \"card\",\n    \"processor\": \"stripe\",\n    \"was_authorized\": true,\n    \"decline_code\": \"insufficient_funds\"\n  },\n  \"credit_card\": {\n    \"issuer_id_number\": \"411111\",\n    \"last_digits\": \"1111\",\n    \"token\": \"tok_abc123def456\",\n    \"bank_name\": \"US Bank\",\n    \"bank_phone_country_code\": \"1\",\n    \"bank_phone_number\": \"800-555-1234\",\n    \"country\": \"US\",\n    \"avs_result\": \"Y\",\n    \"cvv_result\": \"M\",\n    \"was_3d_secure_successful\": true\n  },\n  \"order\": {\n    \"amount\": 123.45,\n    \"currency\": \"USD\",\n    \"discount_code\": \"SUMMER20,LOYALTY5\",\n    \"affiliate_id\": \"aff_001\",\n    \"subaffiliate_id\": \"subaff_002\",\n    \"referrer_uri\": \"https://example.com/products\",\n    \"is_gift\": false,\n    \"has_gift_message\": false\n  },\n  \"shopping_cart\": [\n    {\n      \"category\": \"Electronics\",\n      \"item_id\": \"sku_12345\",\n      \"quantity\": 2,\n      \"price\": 49.99\n    },\n    {\n      \"category\": \"Electronics\",\n      \"item_id\": \"sku_12345\",\n      \"quantity\": 2,\n      \"price\": 49.99\n    }\n  ],\n  \"custom_inputs\": {\n    \"key_0\": \"<boolean>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"JSON_INVALID\",\n  \"error\": \"The request body could not be decoded as JSON.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "08116555-c3c0-4edc-9779-1c7f191b547f",
+              "name": "An unexpected error occurred on MaxMind's servers.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "minfraud",
+                    "v2.0",
+                    "insights"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"device\": {\n    \"ip_address\": \"128.101.101.101\",\n    \"user_agent\": \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36\",\n    \"accept_language\": \"en-US,en;q=0.9\",\n    \"session_age\": 3600.5,\n    \"session_id\": \"abc123def456\",\n    \"tracking_token\": \"<string>\"\n  },\n  \"event\": {\n    \"transaction_id\": \"txn_abc123\",\n    \"shop_id\": \"shop_001\",\n    \"time\": \"2024-03-15T10:30:00Z\",\n    \"type\": \"purchase\",\n    \"party\": \"customer\"\n  },\n  \"account\": {\n    \"user_id\": \"user_12345\",\n    \"username_md5\": \"4f9726678491da7f0aa33f453ae38ba8\"\n  },\n  \"email\": {\n    \"address\": \"user@example.com\",\n    \"domain\": \"example.com\"\n  },\n  \"billing\": {\n    \"first_name\": \"John\",\n    \"last_name\": \"Doe\",\n    \"company\": \"Acme Corp\",\n    \"address\": \"1234 Main St\",\n    \"address_2\": \"Suite 100\",\n    \"city\": \"Minneapolis\",\n    \"region\": \"MN\",\n    \"country\": \"US\",\n    \"postal\": \"55420\",\n    \"phone_number\": \"612-555-0100\",\n    \"phone_country_code\": \"1\"\n  },\n  \"shipping\": {\n    \"first_name\": \"John\",\n    \"last_name\": \"Doe\",\n    \"company\": \"Acme Corp\",\n    \"address\": \"1234 Main St\",\n    \"address_2\": \"Suite 100\",\n    \"city\": \"Minneapolis\",\n    \"region\": \"MN\",\n    \"country\": \"US\",\n    \"postal\": \"55420\",\n    \"phone_number\": \"612-555-0100\",\n    \"phone_country_code\": \"1\",\n    \"delivery_speed\": \"standard\"\n  },\n  \"payment\": {\n    \"method\": \"card\",\n    \"processor\": \"stripe\",\n    \"was_authorized\": true,\n    \"decline_code\": \"insufficient_funds\"\n  },\n  \"credit_card\": {\n    \"issuer_id_number\": \"411111\",\n    \"last_digits\": \"1111\",\n    \"token\": \"tok_abc123def456\",\n    \"bank_name\": \"US Bank\",\n    \"bank_phone_country_code\": \"1\",\n    \"bank_phone_number\": \"800-555-1234\",\n    \"country\": \"US\",\n    \"avs_result\": \"Y\",\n    \"cvv_result\": \"M\",\n    \"was_3d_secure_successful\": true\n  },\n  \"order\": {\n    \"amount\": 123.45,\n    \"currency\": \"USD\",\n    \"discount_code\": \"SUMMER20,LOYALTY5\",\n    \"affiliate_id\": \"aff_001\",\n    \"subaffiliate_id\": \"subaff_002\",\n    \"referrer_uri\": \"https://example.com/products\",\n    \"is_gift\": false,\n    \"has_gift_message\": false\n  },\n  \"shopping_cart\": [\n    {\n      \"category\": \"Electronics\",\n      \"item_id\": \"sku_12345\",\n      \"quantity\": 2,\n      \"price\": 49.99\n    },\n    {\n      \"category\": \"Electronics\",\n      \"item_id\": \"sku_12345\",\n      \"quantity\": 2,\n      \"price\": 49.99\n    }\n  ],\n  \"custom_inputs\": {\n    \"key_0\": \"<boolean>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"JSON_INVALID\",\n  \"error\": \"The request body could not be decoded as JSON.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://geoip.maxmind.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "1f59a35e-53f2-4035-8f29-4d9429c60694",
+    "name": "MaxMind GeoIP Web Services GeoIP City minFraud Insights API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "MaxMind's GeoIP web services provide IP geolocation data including country, city, ISP, organization, ASN, connection type, and VPN/proxy detection. Services are available at three tiers: Country, City Plus, and Insights. All endpoints use HTTP Basic Auth with your MaxMind account ID and license key.\n\n\nContact Support:\n Name: MaxMind Support",
+      "type": "text/plain"
+    }
+  }
+}

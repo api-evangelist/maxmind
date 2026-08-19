@@ -1,0 +1,44 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "MaxMind GeoIP Web Services GeoIP City GeoIP Insights API",
+    "version": "2.1"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "GeoIP Insights",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "GeoIP Insights Lookup",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://geoip.maxmind.com/geoip/v2.1/insights/:ipAddress",
+            "params": [
+              {
+                "name": "ipAddress",
+                "value": "",
+                "type": "path",
+                "description": "The IP address you want to look up. Use \"me\" to look up the IP address of the current connection. Accepts IPv4 (dotted quad) or IPv6 (canonical form per RFC 5952).\n"
+              }
+            ]
+          },
+          "docs": "MaxMind's most comprehensive IP data API, returning all GeoIP City Plus fields plus additional intelligence including connection type, ISP, organization, user type, domain, anonymous IP and proxy/VPN/Tor detection flags. Priced at $0.002 per query.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

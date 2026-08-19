@@ -1,0 +1,40 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "MaxMind GeoIP Web Services GeoIP City minFraud Insights API",
+    "version": "2.1"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "minFraud Insights",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "minFraud Insights",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://geoip.maxmind.com/minfraud/v2.0/insights",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Extends minFraud Score with over 80 data points on IPs, email addresses, devices, and payment cards, plus IP risk reasons that explain contributing risk factors. Priced at $0.015 per query.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,44 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "MaxMind GeoIP Web Services GeoIP City API",
+    "version": "2.1"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "GeoIP City",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "GeoIP City Plus Lookup",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://geoip.maxmind.com/geoip/v2.1/city/:ipAddress",
+            "params": [
+              {
+                "name": "ipAddress",
+                "value": "",
+                "type": "path",
+                "description": "The IP address you want to look up. Use \"me\" to look up the IP address of the current connection. Accepts IPv4 (dotted quad) or IPv6 (canonical form per RFC 5952).\n"
+              }
+            ]
+          },
+          "docs": "Provides city-level geolocation data including city name, postal code, latitude and longitude with accuracy radius, metro code, time zone, and subdivisions. Also includes country, ISP, and organization data in a single response. Priced at $0.0003 per query.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

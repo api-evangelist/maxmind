@@ -1,0 +1,44 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "MaxMind GeoIP Web Services GeoIP City GeoIP Country API",
+    "version": "2.1"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "GeoIP Country",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "GeoIP Country Lookup",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://geoip.maxmind.com/geoip/v2.1/country/:ipAddress",
+            "params": [
+              {
+                "name": "ipAddress",
+                "value": "",
+                "type": "path",
+                "description": "The IP address you want to look up. Use \"me\" to look up the IP address of the current connection. Accepts IPv4 (dotted quad) or IPv6 (canonical form per RFC 5952).\n"
+              }
+            ]
+          },
+          "docs": "Returns country-level geolocation data for a given IP address, including country name, ISO code, continent, and registered country. Suitable for geo-targeting, content localization, and compliance use cases where city precision is not required. Billed at $0.0001 per lookup.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,40 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "MaxMind GeoIP Web Services GeoIP City minFraud Factors API",
+    "version": "2.1"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "minFraud Factors",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "minFraud Factors",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://geoip.maxmind.com/minfraud/v2.0/factors",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "MaxMind's most detailed fraud-scoring tier, adding component-level risk factor decomposition on top of all minFraud Insights features. Returns the individual risk reasons that make up the composite transaction score, enabling model interpretability and rule refinement. Priced at $0.020 per query.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
