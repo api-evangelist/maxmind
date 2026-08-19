@@ -28,7 +28,7 @@ url: https://raw.githubusercontent.com/api-evangelist/maxmind/refs/heads/main/ap
 created: '2026-06-12'
 modified: '2026-06-12'
 
-specificationVersion: '0.19'
+specificationVersion: '0.23'
 tags:
   - IP Intelligence
   - Geolocation
