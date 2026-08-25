@@ -20,8 +20,7 @@
       "feed_url": "https://www.linkedin.com/company/maxmind",
       "title": "",
       "saved": 0,
-      "method": "none",
-      "error": "parse_failed"
+      "method": "none"
     },
     {
       "source": "https://blog.maxmind.com/",
@@ -31,6 +30,6 @@
       "method": "discovered"
     }
   ],
-  "fetched": "2026-08-15T12:11:08Z",
+  "fetched": "2026-08-22T20:20:02Z",
   "post_count": 7
 }
