@@ -10,6 +10,18 @@ description: >
   fraud. MaxMind also offers downloadable GeoIP databases and the free GeoLite2
   dataset for developers who prefer local lookups over API calls.
 type: Index
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: freemium
   onboarding: self-serve
