@@ -1,6 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: MaxMind GeoIP Web Services GeoIP City GeoIP Country API
+  title: MaxMind GeoIP Web Services GeoIP Country API
   description: 'MaxMind''s GeoIP web services provide IP geolocation data including country, city, ISP, organization, ASN, connection type, and VPN/proxy detection. Services are available at three tiers: Country, City Plus, and Insights. All endpoints use HTTP Basic Auth with your MaxMind account ID and license key.
 
     '
@@ -56,72 +56,23 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 components:
-  responses:
-    Forbidden:
-      description: 'The request is forbidden. Your account does not have access to this service, or the IP address is blocked.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    TooManyRequests:
-      description: 'Too many requests have been sent in a given period. Slow down your request rate.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: 'There was an error authenticating the request. Verify your account ID and license key.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    PaymentRequired:
-      description: 'The service requires payment. Check that your account has sufficient credits.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    BadRequest:
-      description: 'There was an error with the request. Check the code and error fields for details.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    NotFound:
-      description: 'No record found for the IP address. The IP address may be invalid or not in the database.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    InternalServerError:
-      description: 'An unexpected error occurred on MaxMind''s servers.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
   schemas:
-    LocalizedNames:
+    CountryTraits:
       type: object
-      description: Localized names keyed by locale code (e.g., "en", "de", "fr")
-      additionalProperties:
-        type: string
-      example:
-        en: United States
-        de: Vereinigte Staaten
+      description: Traits associated with the IP address (Country tier)
+      properties:
+        ip_address:
+          type: string
+          description: The IP address that was looked up
+          example: 128.101.101.101
+        is_anycast:
+          type: boolean
+          description: Whether the IP is part of an anycast network
+          example: false
+        network:
+          type: string
+          description: CIDR network block associated with the record
+          example: 128.101.101.0/24
     Country:
       type: object
       description: Country data for the IP address
@@ -146,41 +97,6 @@ components:
           example: US
         names:
           $ref: '#/components/schemas/LocalizedNames'
-    CountryResponse:
-      type: object
-      description: Response from the GeoIP Country web service
-      properties:
-        continent:
-          $ref: '#/components/schemas/Continent'
-        country:
-          $ref: '#/components/schemas/Country'
-        maxmind:
-          $ref: '#/components/schemas/MaxMindMeta'
-        registered_country:
-          $ref: '#/components/schemas/RegisteredCountry'
-        represented_country:
-          $ref: '#/components/schemas/RepresentedCountry'
-        traits:
-          $ref: '#/components/schemas/CountryTraits'
-    RepresentedCountry:
-      type: object
-      description: Country that is represented by the IP address (e.g., military)
-      properties:
-        geoname_id:
-          type: integer
-          example: 6252001
-        is_in_european_union:
-          type: boolean
-          example: false
-        iso_code:
-          type: string
-          example: US
-        names:
-          $ref: '#/components/schemas/LocalizedNames'
-        type:
-          type: string
-          description: Type of represented country (e.g., "military", "satellite")
-          example: military
     Continent:
       type: object
       description: Continent data for the IP address
@@ -210,22 +126,22 @@ components:
           example: US
         names:
           $ref: '#/components/schemas/LocalizedNames'
-    CountryTraits:
+    CountryResponse:
       type: object
-      description: Traits associated with the IP address (Country tier)
+      description: Response from the GeoIP Country web service
       properties:
-        ip_address:
-          type: string
-          description: The IP address that was looked up
-          example: 128.101.101.101
-        is_anycast:
-          type: boolean
-          description: Whether the IP is part of an anycast network
-          example: false
-        network:
-          type: string
-          description: CIDR network block associated with the record
-          example: 128.101.101.0/24
+        continent:
+          $ref: '#/components/schemas/Continent'
+        country:
+          $ref: '#/components/schemas/Country'
+        maxmind:
+          $ref: '#/components/schemas/MaxMindMeta'
+        registered_country:
+          $ref: '#/components/schemas/RegisteredCountry'
+        represented_country:
+          $ref: '#/components/schemas/RepresentedCountry'
+        traits:
+          $ref: '#/components/schemas/CountryTraits'
     ErrorResponse:
       type: object
       description: Standard error response
@@ -246,6 +162,90 @@ components:
           type: integer
           description: Number of queries remaining in the current subscription period
           example: 123456
+    RepresentedCountry:
+      type: object
+      description: Country that is represented by the IP address (e.g., military)
+      properties:
+        geoname_id:
+          type: integer
+          example: 6252001
+        is_in_european_union:
+          type: boolean
+          example: false
+        iso_code:
+          type: string
+          example: US
+        names:
+          $ref: '#/components/schemas/LocalizedNames'
+        type:
+          type: string
+          description: Type of represented country (e.g., "military", "satellite")
+          example: military
+    LocalizedNames:
+      type: object
+      description: Localized names keyed by locale code (e.g., "en", "de", "fr")
+      additionalProperties:
+        type: string
+      example:
+        en: United States
+        de: Vereinigte Staaten
+  responses:
+    PaymentRequired:
+      description: 'The service requires payment. Check that your account has sufficient credits.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: 'No record found for the IP address. The IP address may be invalid or not in the database.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: 'There was an error authenticating the request. Verify your account ID and license key.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Forbidden:
+      description: 'The request is forbidden. Your account does not have access to this service, or the IP address is blocked.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    InternalServerError:
+      description: 'An unexpected error occurred on MaxMind''s servers.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    TooManyRequests:
+      description: 'Too many requests have been sent in a given period. Slow down your request rate.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: 'There was an error with the request. Check the code and error fields for details.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   parameters:
     ipAddress:
       name: ipAddress

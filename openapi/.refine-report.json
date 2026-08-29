@@ -1,12 +1,8 @@
 {
   "provider": "maxmind",
   "sources": [
-    "maxmind-geoip-city-api-openapi.yml",
-    "maxmind-geoip-country-api-openapi.yml",
-    "maxmind-geoip-insights-api-openapi.yml",
-    "maxmind-minfraud-factors-api-openapi.yml",
-    "maxmind-minfraud-insights-api-openapi.yml",
-    "maxmind-minfraud-score-api-openapi.yml"
+    "_original/maxmind-geoip-openapi.yml",
+    "_original/maxmind-minfraud-openapi.yml"
   ],
   "outputs": [
     "maxmind-geoip-city-api-openapi.yml",
@@ -19,6 +15,17 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (2 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "maxmind-geoip-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "maxmind-minfraud-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0"
+  ],
+  "skipped": [
+    "maxmind-geoip-city-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "maxmind-geoip-country-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "maxmind-geoip-insights-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "maxmind-minfraud-factors-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "maxmind-minfraud-insights-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "maxmind-minfraud-score-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
