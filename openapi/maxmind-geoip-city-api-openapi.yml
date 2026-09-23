@@ -1,9 +1,7 @@
 openapi: 3.2.0
 info:
   title: MaxMind GeoIP Web Services GeoIP City API
-  description: 'MaxMind''s GeoIP web services provide IP geolocation data including country, city, ISP, organization, ASN, connection type, and VPN/proxy detection. Services are available at three tiers: Country, City Plus, and Insights. All endpoints use HTTP Basic Auth with your MaxMind account ID and license key.
-
-    '
+  description: 'MaxMind''s GeoIP web services provide IP geolocation data including country, city, ISP, organization, ASN, connection type, and VPN/proxy detection. Services are available at three tiers: Country, City Plus, and Insights. All endpoints use HTTP Basic Auth with your MaxMind account ID and license key.'
   version: '2.1'
   contact:
     name: MaxMind Support
@@ -27,9 +25,7 @@ paths:
     get:
       operationId: getGeoIPCity
       summary: GeoIP City Plus Lookup
-      description: 'Provides city-level geolocation data including city name, postal code, latitude and longitude with accuracy radius, metro code, time zone, and subdivisions. Also includes country, ISP, and organization data in a single response. Priced at $0.0003 per query.
-
-        '
+      description: Provides city-level geolocation data including city name, postal code, latitude and longitude with accuracy radius, metro code, time zone, and subdivisions. Also includes country, ISP, and organization data in a single response. Priced at $0.0003 per query.
       tags:
       - GeoIP City
       parameters:
@@ -57,8 +53,24 @@ paths:
           $ref: '#/components/responses/InternalServerError'
 components:
   responses:
+    TooManyRequests:
+      description: 'Too many requests have been sent in a given period. Slow down your request rate.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
     PaymentRequired:
       description: 'The service requires payment. Check that your account has sufficient credits.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    InternalServerError:
+      description: 'An unexpected error occurred on MaxMind''s servers.
 
         '
       content:
@@ -81,14 +93,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    BadRequest:
-      description: 'There was an error with the request. Check the code and error fields for details.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
     Unauthorized:
       description: 'There was an error authenticating the request. Verify your account ID and license key.
 
@@ -97,92 +101,49 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    InternalServerError:
-      description: 'An unexpected error occurred on MaxMind''s servers.
+    BadRequest:
+      description: 'There was an error with the request. Check the code and error fields for details.
 
         '
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    TooManyRequests:
-      description: 'Too many requests have been sent in a given period. Slow down your request rate.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-  parameters:
-    ipAddress:
-      name: ipAddress
-      in: path
-      required: true
-      description: 'The IP address you want to look up. Use "me" to look up the IP address of the current connection. Accepts IPv4 (dotted quad) or IPv6 (canonical form per RFC 5952).
-
-        '
-      schema:
-        type: string
-        example: 128.101.101.101
   schemas:
-    City:
+    Location:
       type: object
-      description: City data for the IP address
+      description: Location data including coordinates and time zone
       properties:
-        confidence:
+        accuracy_radius:
           type: integer
-          description: Confidence percent (1-99) that the city is correct
-          minimum: 1
-          maximum: 99
-          example: 75
-        geoname_id:
+          description: Estimated accuracy radius in kilometers
+          example: 20
+        latitude:
+          type: number
+          format: double
+          description: Approximate latitude
+          example: 44.9532
+        longitude:
+          type: number
+          format: double
+          description: Approximate longitude
+          example: -93.0875
+        metro_code:
           type: integer
-          description: GeoNames ID for the city
-          example: 5037649
-        names:
-          $ref: '#/components/schemas/LocalizedNames'
-    CityResponse:
-      type: object
-      description: Response from the GeoIP City Plus web service
-      properties:
-        city:
-          $ref: '#/components/schemas/City'
-        continent:
-          $ref: '#/components/schemas/Continent'
-        country:
-          $ref: '#/components/schemas/Country'
-        location:
-          $ref: '#/components/schemas/Location'
-        maxmind:
-          $ref: '#/components/schemas/MaxMindMeta'
-        postal:
-          $ref: '#/components/schemas/Postal'
-        registered_country:
-          $ref: '#/components/schemas/RegisteredCountry'
-        represented_country:
-          $ref: '#/components/schemas/RepresentedCountry'
-        subdivisions:
-          type: array
-          items:
-            $ref: '#/components/schemas/Subdivision'
-        traits:
-          $ref: '#/components/schemas/CityTraits'
-    CountryTraits:
-      type: object
-      description: Traits associated with the IP address (Country tier)
-      properties:
-        ip_address:
+          description: US metro code (US only)
+          example: 613
+        time_zone:
           type: string
-          description: The IP address that was looked up
-          example: 128.101.101.101
-        is_anycast:
-          type: boolean
-          description: Whether the IP is part of an anycast network
-          example: false
-        network:
-          type: string
-          description: CIDR network block associated with the record
-          example: 128.101.101.0/24
+          description: Time zone name as defined by the IANA Time Zone Database
+          example: America/Chicago
+    MaxMindMeta:
+      type: object
+      description: MaxMind account metadata
+      properties:
+        queries_remaining:
+          type: integer
+          description: Number of queries remaining in the current subscription period
+          example: 123456
     Country:
       type: object
       description: Country data for the IP address
@@ -207,6 +168,25 @@ components:
           example: US
         names:
           $ref: '#/components/schemas/LocalizedNames'
+    RepresentedCountry:
+      type: object
+      description: Country that is represented by the IP address (e.g., military)
+      properties:
+        geoname_id:
+          type: integer
+          example: 6252001
+        is_in_european_union:
+          type: boolean
+          example: false
+        iso_code:
+          type: string
+          example: US
+        names:
+          $ref: '#/components/schemas/LocalizedNames'
+        type:
+          type: string
+          description: Type of represented country (e.g., "military", "satellite")
+          example: military
     CityTraits:
       allOf:
       - $ref: '#/components/schemas/CountryTraits'
@@ -252,21 +232,6 @@ components:
       example:
         en: United States
         de: Vereinigte Staaten
-    RegisteredCountry:
-      type: object
-      description: Country where the IP address is registered
-      properties:
-        geoname_id:
-          type: integer
-          example: 6252001
-        is_in_european_union:
-          type: boolean
-          example: false
-        iso_code:
-          type: string
-          example: US
-        names:
-          $ref: '#/components/schemas/LocalizedNames'
     Subdivision:
       type: object
       description: Subdivision (state/province/region) data
@@ -287,46 +252,18 @@ components:
           example: MN
         names:
           $ref: '#/components/schemas/LocalizedNames'
-    Postal:
+    ErrorResponse:
       type: object
-      description: Postal code data
+      description: Standard error response
       properties:
         code:
           type: string
-          description: Postal code for the IP address
-          example: '55420'
-        confidence:
-          type: integer
-          description: Confidence percent (1-99) the postal code is correct
-          minimum: 1
-          maximum: 99
-          example: 60
-    Location:
-      type: object
-      description: Location data including coordinates and time zone
-      properties:
-        accuracy_radius:
-          type: integer
-          description: Estimated accuracy radius in kilometers
-          example: 20
-        latitude:
-          type: number
-          format: double
-          description: Approximate latitude
-          example: 44.9532
-        longitude:
-          type: number
-          format: double
-          description: Approximate longitude
-          example: -93.0875
-        metro_code:
-          type: integer
-          description: US metro code (US only)
-          example: 613
-        time_zone:
+          description: Error code
+          example: IP_ADDRESS_INVALID
+        error:
           type: string
-          description: Time zone name as defined by the IANA Time Zone Database
-          example: America/Chicago
+          description: Human-readable error description
+          example: The value 'foo' is not a valid IP address.
     Continent:
       type: object
       description: Continent data for the IP address
@@ -341,29 +278,81 @@ components:
           example: 6255149
         names:
           $ref: '#/components/schemas/LocalizedNames'
-    ErrorResponse:
+    CountryTraits:
       type: object
-      description: Standard error response
+      description: Traits associated with the IP address (Country tier)
+      properties:
+        ip_address:
+          type: string
+          description: The IP address that was looked up
+          example: 128.101.101.101
+        is_anycast:
+          type: boolean
+          description: Whether the IP is part of an anycast network
+          example: false
+        network:
+          type: string
+          description: CIDR network block associated with the record
+          example: 128.101.101.0/24
+    City:
+      type: object
+      description: City data for the IP address
+      properties:
+        confidence:
+          type: integer
+          description: Confidence percent (1-99) that the city is correct
+          minimum: 1
+          maximum: 99
+          example: 75
+        geoname_id:
+          type: integer
+          description: GeoNames ID for the city
+          example: 5037649
+        names:
+          $ref: '#/components/schemas/LocalizedNames'
+    CityResponse:
+      type: object
+      description: Response from the GeoIP City Plus web service
+      properties:
+        city:
+          $ref: '#/components/schemas/City'
+        continent:
+          $ref: '#/components/schemas/Continent'
+        country:
+          $ref: '#/components/schemas/Country'
+        location:
+          $ref: '#/components/schemas/Location'
+        maxmind:
+          $ref: '#/components/schemas/MaxMindMeta'
+        postal:
+          $ref: '#/components/schemas/Postal'
+        registered_country:
+          $ref: '#/components/schemas/RegisteredCountry'
+        represented_country:
+          $ref: '#/components/schemas/RepresentedCountry'
+        subdivisions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Subdivision'
+        traits:
+          $ref: '#/components/schemas/CityTraits'
+    Postal:
+      type: object
+      description: Postal code data
       properties:
         code:
           type: string
-          description: Error code
-          example: IP_ADDRESS_INVALID
-        error:
-          type: string
-          description: Human-readable error description
-          example: The value 'foo' is not a valid IP address.
-    MaxMindMeta:
-      type: object
-      description: MaxMind account metadata
-      properties:
-        queries_remaining:
+          description: Postal code for the IP address
+          example: '55420'
+        confidence:
           type: integer
-          description: Number of queries remaining in the current subscription period
-          example: 123456
-    RepresentedCountry:
+          description: Confidence percent (1-99) the postal code is correct
+          minimum: 1
+          maximum: 99
+          example: 60
+    RegisteredCountry:
       type: object
-      description: Country that is represented by the IP address (e.g., military)
+      description: Country where the IP address is registered
       properties:
         geoname_id:
           type: integer
@@ -376,10 +365,17 @@ components:
           example: US
         names:
           $ref: '#/components/schemas/LocalizedNames'
-        type:
-          type: string
-          description: Type of represented country (e.g., "military", "satellite")
-          example: military
+  parameters:
+    ipAddress:
+      name: ipAddress
+      in: path
+      required: true
+      description: 'The IP address you want to look up. Use "me" to look up the IP address of the current connection. Accepts IPv4 (dotted quad) or IPv6 (canonical form per RFC 5952).
+
+        '
+      schema:
+        type: string
+        example: 128.101.101.101
   securitySchemes:
     basicAuth:
       type: http

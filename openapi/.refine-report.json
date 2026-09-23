@@ -18,7 +18,8 @@
   "notes": [
     "sourced from openapi/_original/ (2 archived document(s)); previously refined output at the top level was skipped rather than re-split",
     "maxmind-geoip-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
-    "maxmind-minfraud-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0"
+    "maxmind-minfraud-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
   ],
   "skipped": [
     "maxmind-geoip-city-api-openapi.yml: previously refined output, superseded by openapi/_original/",
