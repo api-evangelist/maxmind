@@ -55,37 +55,55 @@ paths:
           $ref: '#/components/responses/InternalServerError'
 components:
   schemas:
-    DeviceRequest:
+    InsightsResponse:
       type: object
-      description: Device information about the transaction
+      description: Response from the minFraud Insights web service
       properties:
-        ip_address:
+        id:
           type: string
-          description: IPv4 or IPv6 address of the device initiating the transaction
-          example: 128.101.101.101
-        user_agent:
-          type: string
-          maxLength: 512
-          description: Browser HTTP User-Agent header value
-          example: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36
-        accept_language:
-          type: string
-          maxLength: 255
-          description: Browser HTTP Accept-Language header value
-          example: en-US,en;q=0.9
-        session_age:
+          format: uuid
+          description: Unique identifier for this transaction
+          example: 7835b099-d385-4e5b-969e-7df26181d73c
+        risk_score:
           type: number
           format: double
-          description: Number of seconds elapsed since the current session began
-          example: 3600.5
-        session_id:
-          type: string
-          maxLength: 255
-          description: Unique identifier for the visitor's session
-          example: abc123def456
-        tracking_token:
-          type: string
-          description: Device tracking add-on token for fingerprinting
+          description: 'Overall risk score from 0.01 to 99, where 99 is the highest risk
+
+            '
+          minimum: 0.01
+          maximum: 99
+          example: 0.01
+        funds_remaining:
+          type: number
+          format: double
+          description: Number of transaction credits remaining in your account
+          example: 125.0
+        queries_remaining:
+          type: integer
+          description: Number of transaction queries remaining in your account
+          example: 5000
+        ip_address:
+          $ref: '#/components/schemas/IpAddressResponse'
+        credit_card:
+          $ref: '#/components/schemas/CreditCardResponse'
+        device:
+          $ref: '#/components/schemas/DeviceResponse'
+        email:
+          $ref: '#/components/schemas/EmailResponse'
+        shipping_address:
+          $ref: '#/components/schemas/ShippingAddressResponse'
+        shipping_phone:
+          $ref: '#/components/schemas/PhoneResponse'
+        billing_address:
+          $ref: '#/components/schemas/AddressResponse'
+        billing_phone:
+          $ref: '#/components/schemas/PhoneResponse'
+        disposition:
+          $ref: '#/components/schemas/DispositionResponse'
+        warnings:
+          type: array
+          items:
+            $ref: '#/components/schemas/Warning'
     CreditCardResponse:
       type: object
       description: Credit card risk and metadata
@@ -137,128 +155,6 @@ components:
           type: string
           description: Card type (e.g., credit, debit)
           example: credit
-    Warning:
-      type: object
-      description: A non-fatal warning about the transaction data
-      properties:
-        code:
-          type: string
-          description: Machine-readable warning code
-          example: EMAIL_ADDRESS_INVALID
-        input_pointer:
-          type: string
-          description: JSON Pointer to the field that triggered the warning
-          example: /email/address
-        warning:
-          type: string
-          description: Human-readable warning description
-          example: The email address supplied is not valid.
-    EmailResponse:
-      type: object
-      description: Email address risk data
-      properties:
-        domain:
-          type: object
-          properties:
-            classification:
-              type: string
-              description: Classification of the email domain
-              example: free
-            first_seen:
-              type: string
-              description: Date the domain was first seen (ISO 8601)
-              example: '2010-01-01'
-            risk:
-              type: number
-              format: double
-              description: Domain risk score from 0.01 to 99
-              example: 0.5
-            visit:
-              type: object
-              properties:
-                has_redirect:
-                  type: boolean
-                  description: Whether the domain redirects to another URL
-                last_visited_on:
-                  type: string
-                  description: Date the domain was last checked
-                status:
-                  type: string
-                  description: HTTP status of the domain
-            volume:
-              type: number
-              format: double
-              description: Relative email volume for the domain
-        first_seen:
-          type: string
-          description: Date the email address was first seen by MaxMind (ISO 8601)
-          example: '2018-06-15'
-        is_disposable:
-          type: boolean
-          description: Whether the email address is from a disposable email provider
-          example: false
-        is_free:
-          type: boolean
-          description: Whether the email address is from a free email provider
-          example: false
-        is_high_risk:
-          type: boolean
-          description: Whether the email address is considered high risk
-          example: false
-    TransactionRequest:
-      type: object
-      description: 'The transaction data to be scored. At minimum, the device.ip_address is required. Total request body size is limited to 20,000 bytes.
-
-        '
-      properties:
-        device:
-          $ref: '#/components/schemas/DeviceRequest'
-        event:
-          $ref: '#/components/schemas/EventRequest'
-        account:
-          $ref: '#/components/schemas/AccountRequest'
-        email:
-          $ref: '#/components/schemas/EmailRequest'
-        billing:
-          $ref: '#/components/schemas/AddressRequest'
-        shipping:
-          $ref: '#/components/schemas/ShippingRequest'
-        payment:
-          $ref: '#/components/schemas/PaymentRequest'
-        credit_card:
-          $ref: '#/components/schemas/CreditCardRequest'
-        order:
-          $ref: '#/components/schemas/OrderRequest'
-        shopping_cart:
-          type: array
-          description: List of items in the shopping cart
-          items:
-            $ref: '#/components/schemas/ShoppingCartItem'
-        custom_inputs:
-          type: object
-          description: 'Custom input fields configured for your account. Values may be booleans, strings, numbers, or phone numbers.
-
-            '
-          additionalProperties:
-            oneOf:
-            - type: boolean
-            - type: string
-            - type: number
-    ShippingAddressResponse:
-      allOf:
-      - $ref: '#/components/schemas/AddressResponse'
-      - type: object
-        properties:
-          distance_to_billing_address:
-            type: integer
-            description: 'Distance in kilometers between the shipping and billing addresses
-
-              '
-            example: 0
-          is_high_risk:
-            type: boolean
-            description: Whether the shipping address is considered high risk
-            example: false
     EmailRequest:
       type: object
       description: Email address data for the transaction
@@ -275,210 +171,21 @@ components:
           maxLength: 255
           description: The domain of the email address (without the @ symbol)
           example: example.com
-    ShippingRequest:
+    ShippingAddressResponse:
       allOf:
-      - $ref: '#/components/schemas/AddressRequest'
+      - $ref: '#/components/schemas/AddressResponse'
       - type: object
         properties:
-          delivery_speed:
-            type: string
-            description: Shipping delivery speed
-            enum:
-            - same_day
-            - overnight
-            - expedited
-            - standard
-            example: standard
-    AddressRequest:
-      type: object
-      description: Address information (used for both billing and shipping)
-      properties:
-        first_name:
-          type: string
-          maxLength: 255
-          description: First name
-          example: John
-        last_name:
-          type: string
-          maxLength: 255
-          description: Last name
-          example: Doe
-        company:
-          type: string
-          maxLength: 255
-          description: Company name
-          example: Acme Corp
-        address:
-          type: string
-          maxLength: 255
-          description: First line of the street address
-          example: 1234 Main St
-        address_2:
-          type: string
-          maxLength: 255
-          description: Second line of the street address
-          example: Suite 100
-        city:
-          type: string
-          maxLength: 255
-          description: City name
-          example: Minneapolis
-        region:
-          type: string
-          maxLength: 4
-          description: ISO 3166-2 subdivision code
-          example: MN
-        country:
-          type: string
-          maxLength: 2
-          description: ISO 3166-1 alpha-2 country code
-          example: US
-        postal:
-          type: string
-          maxLength: 255
-          description: Postal code
-          example: '55420'
-        phone_number:
-          type: string
-          maxLength: 255
-          description: Phone number without country code
-          example: 612-555-0100
-        phone_country_code:
-          type: string
-          maxLength: 4
-          description: Country code for the phone number
-          example: '1'
-    CreditCardRequest:
-      type: object
-      description: Credit card information for the transaction
-      properties:
-        issuer_id_number:
-          type: string
-          maxLength: 8
-          description: 'The first 6 or 8 digits of the credit card number (IIN/BIN). Must be 6 or 8 digits.
+          distance_to_billing_address:
+            type: integer
+            description: 'Distance in kilometers between the shipping and billing addresses
 
-            '
-          example: '411111'
-        last_digits:
-          type: string
-          maxLength: 4
-          description: Last 2 or 4 digits of the credit card number
-          example: '1111'
-        token:
-          type: string
-          maxLength: 255
-          description: 'A unique card identifier that does not directly identify the card number, such as a token from your payment processor
-
-            '
-          example: tok_abc123def456
-        bank_name:
-          type: string
-          maxLength: 255
-          description: Name of the bank issuing the credit card
-          example: US Bank
-        bank_phone_country_code:
-          type: string
-          maxLength: 4
-          description: Country code for the bank's phone number
-          example: '1'
-        bank_phone_number:
-          type: string
-          maxLength: 255
-          description: Phone number for the issuing bank
-          example: 800-555-1234
-        country:
-          type: string
-          maxLength: 2
-          description: ISO 3166-1 alpha-2 country code where the issuer is located
-          example: US
-        avs_result:
-          type: string
-          maxLength: 1
-          description: AVS check result code from the payment processor
-          example: Y
-        cvv_result:
-          type: string
-          maxLength: 1
-          description: CVV check result code from the payment processor
-          example: M
-        was_3d_secure_successful:
-          type: boolean
-          description: Whether 3-D Secure verification was successful
-          example: true
-    IpAddressRiskReason:
-      type: object
-      description: A reason contributing to the IP risk score
-      properties:
-        code:
-          type: string
-          description: Machine-readable reason code
-          example: ANONYMOUS_IP
-        reason:
-          type: string
-          description: Human-readable reason description
-          example: The IP address is associated with an anonymous network.
-    AccountRequest:
-      type: object
-      description: Account data associated with the transaction
-      properties:
-        user_id:
-          type: string
-          maxLength: 255
-          description: Unique permanent identifier for the user in your system
-          example: user_12345
-        username_md5:
-          type: string
-          maxLength: 32
-          description: MD5 hash of the username or login name
-          example: 4f9726678491da7f0aa33f453ae38ba8
-    PhoneResponse:
-      type: object
-      description: Phone number risk data
-      properties:
-        country:
-          type: string
-          description: ISO 3166-1 alpha-2 country code for the phone number
-          example: US
-        is_voip:
-          type: boolean
-          description: Whether the phone number is a VOIP number
-          example: false
-        matches_postal:
-          type: boolean
-          description: Whether the phone number area code matches the postal code
-          example: true
-        network_operator:
-          type: string
-          description: Name of the carrier/operator
-          example: US Cellular
-        number_type:
-          type: string
-          description: Type of phone number (e.g., landline, mobile, voip)
-          example: landline
-    ShoppingCartItem:
-      type: object
-      description: A single item in the shopping cart
-      properties:
-        category:
-          type: string
-          maxLength: 255
-          description: Category of the item
-          example: Electronics
-        item_id:
-          type: string
-          maxLength: 255
-          description: Your internal item identifier
-          example: sku_12345
-        quantity:
-          type: integer
-          description: Quantity of the item ordered
-          minimum: 1
-          example: 2
-        price:
-          type: number
-          format: double
-          description: Per-unit price of the item in the order currency
-          example: 49.99
+              '
+            example: 0
+          is_high_risk:
+            type: boolean
+            description: Whether the shipping address is considered high risk
+            example: false
     ErrorResponse:
       type: object
       description: Standard error response
@@ -491,143 +198,6 @@ components:
           type: string
           description: Human-readable error description
           example: The request body could not be decoded as JSON.
-    AddressResponse:
-      type: object
-      description: Address verification data
-      properties:
-        distance_to_ip_location:
-          type: integer
-          description: Distance in kilometers from the address to the IP location
-          example: 15
-        is_in_ip_country:
-          type: boolean
-          description: Whether the address is in the same country as the IP
-          example: true
-        is_postal_in_city:
-          type: boolean
-          description: Whether the postal code is within the provided city
-          example: true
-        latitude:
-          type: number
-          format: double
-          description: Approximate latitude of the address
-          example: 44.9532
-        longitude:
-          type: number
-          format: double
-          description: Approximate longitude of the address
-          example: -93.0875
-    OrderRequest:
-      type: object
-      description: Order-level information for the transaction
-      properties:
-        amount:
-          type: number
-          format: double
-          description: Total order value before taxes and discounts, in the currency specified
-          example: 123.45
-        currency:
-          type: string
-          maxLength: 3
-          description: ISO 4217 currency code for the order
-          example: USD
-        discount_code:
-          type: string
-          maxLength: 255
-          description: Comma-separated list of discount codes applied to the order
-          example: SUMMER20,LOYALTY5
-        affiliate_id:
-          type: string
-          maxLength: 255
-          description: Affiliate identifier for the order
-          example: aff_001
-        subaffiliate_id:
-          type: string
-          maxLength: 255
-          description: Sub-affiliate identifier for the order
-          example: subaff_002
-        referrer_uri:
-          type: string
-          maxLength: 1024
-          description: Absolute URI of the referring website
-          example: https://example.com/products
-        is_gift:
-          type: boolean
-          description: Whether the order is marked as a gift
-          example: false
-        has_gift_message:
-          type: boolean
-          description: Whether the order has a gift message
-          example: false
-    PaymentRequest:
-      type: object
-      description: Payment method information
-      properties:
-        method:
-          type: string
-          description: 'Payment method. Possible values: card, bank_debit, crypto, digital_wallet, google_pay, interac, invoice, paypal, poli, sepa, sofort, square_cash, ukash, venus_point, webmoney
-
-            '
-          example: card
-        processor:
-          type: string
-          description: 'Payment processor. Possible values: adyen, affirm, afterpay, amazon, authorizenet, balanced, beanstream, bluepay, bluesnap, bpoint, braintree, cardknox, cardpay, cashnet, ccnow, chase_paymentech, checkout_com, cielo, collector, conekta, ct_payments, cybersource, dibs, digital_river, elavon, epay, eprocessing_network, eway, exact, fiserv, global_payments, heartland, hipay, ipp, keyclient, keypaynz, komoju, litle, mastercard_payment_gateway, mercadopago, merchant_esolutions, mirjeh, mollie, moneris_solutions, nmi, orbital, other, paidy, pay4later, payco, paydirekt, payeezy, payfast, paygate, payme, payone, payoneer, paypalec, paysafe, paytrace, payway, payza, pinpayments, posconnect, princeton_payment_solutions, psigate, qiwi, quickpay, raberil, rede, redpagos, rewardspay, sagepay, securetrading, simplify_commerce, skrill, smartpay, solidtrust_pay, sps_decidir, stripe, telerecargas, towah, usa_epay, verepay, vme, vpos, worldpay, * (custom processor)
-
-            '
-          example: stripe
-        was_authorized:
-          type: boolean
-          description: Whether the payment was authorized
-          example: true
-        decline_code:
-          type: string
-          maxLength: 255
-          description: Decline code returned by the payment processor
-          example: insufficient_funds
-    EventRequest:
-      type: object
-      description: Data about the event being scored
-      properties:
-        transaction_id:
-          type: string
-          maxLength: 255
-          description: Your internal transaction or order identifier
-          example: txn_abc123
-        shop_id:
-          type: string
-          maxLength: 255
-          description: Your internal identifier for the shop, affiliate, or merchant
-          example: shop_001
-        time:
-          type: string
-          format: date-time
-          description: 'RFC 3339 date-time of the event. Must be within the past year. If not provided, the current time is used.
-
-            '
-          example: '2024-03-15T10:30:00Z'
-        type:
-          type: string
-          description: 'Type of event. Possible values: account_creation, account_login, email_change, password_reset, payout_change, purchase, recurring_purchase, referral, survey
-
-            '
-          enum:
-          - account_creation
-          - account_login
-          - email_change
-          - password_reset
-          - payout_change
-          - purchase
-          - recurring_purchase
-          - referral
-          - survey
-          example: purchase
-        party:
-          type: string
-          description: The party submitting the transaction. Either customer or agent.
-          enum:
-          - customer
-          - agent
-          example: customer
     IpAddressResponse:
       type: object
       description: IP address risk and geolocation data
@@ -746,55 +316,45 @@ components:
               type: string
             user_type:
               type: string
-    InsightsResponse:
+    TransactionRequest:
       type: object
-      description: Response from the minFraud Insights web service
+      description: 'The transaction data to be scored. At minimum, the device.ip_address is required. Total request body size is limited to 20,000 bytes.
+
+        '
       properties:
-        id:
-          type: string
-          format: uuid
-          description: Unique identifier for this transaction
-          example: 7835b099-d385-4e5b-969e-7df26181d73c
-        risk_score:
-          type: number
-          format: double
-          description: 'Overall risk score from 0.01 to 99, where 99 is the highest risk
+        device:
+          $ref: '#/components/schemas/DeviceRequest'
+        event:
+          $ref: '#/components/schemas/EventRequest'
+        account:
+          $ref: '#/components/schemas/AccountRequest'
+        email:
+          $ref: '#/components/schemas/EmailRequest'
+        billing:
+          $ref: '#/components/schemas/AddressRequest'
+        shipping:
+          $ref: '#/components/schemas/ShippingRequest'
+        payment:
+          $ref: '#/components/schemas/PaymentRequest'
+        credit_card:
+          $ref: '#/components/schemas/CreditCardRequest'
+        order:
+          $ref: '#/components/schemas/OrderRequest'
+        shopping_cart:
+          type: array
+          description: List of items in the shopping cart
+          items:
+            $ref: '#/components/schemas/ShoppingCartItem'
+        custom_inputs:
+          type: object
+          description: 'Custom input fields configured for your account. Values may be booleans, strings, numbers, or phone numbers.
 
             '
-          minimum: 0.01
-          maximum: 99
-          example: 0.01
-        funds_remaining:
-          type: number
-          format: double
-          description: Number of transaction credits remaining in your account
-          example: 125.0
-        queries_remaining:
-          type: integer
-          description: Number of transaction queries remaining in your account
-          example: 5000
-        ip_address:
-          $ref: '#/components/schemas/IpAddressResponse'
-        credit_card:
-          $ref: '#/components/schemas/CreditCardResponse'
-        device:
-          $ref: '#/components/schemas/DeviceResponse'
-        email:
-          $ref: '#/components/schemas/EmailResponse'
-        shipping_address:
-          $ref: '#/components/schemas/ShippingAddressResponse'
-        shipping_phone:
-          $ref: '#/components/schemas/PhoneResponse'
-        billing_address:
-          $ref: '#/components/schemas/AddressResponse'
-        billing_phone:
-          $ref: '#/components/schemas/PhoneResponse'
-        disposition:
-          $ref: '#/components/schemas/DispositionResponse'
-        warnings:
-          type: array
-          items:
-            $ref: '#/components/schemas/Warning'
+          additionalProperties:
+            oneOf:
+            - type: boolean
+            - type: string
+            - type: number
     DeviceResponse:
       type: object
       description: Device fingerprint information
@@ -822,6 +382,148 @@ components:
           type: string
           description: Local time in the device's time zone (ISO 8601)
           example: '2024-01-15T10:00:00-06:00'
+    ShoppingCartItem:
+      type: object
+      description: A single item in the shopping cart
+      properties:
+        category:
+          type: string
+          maxLength: 255
+          description: Category of the item
+          example: Electronics
+        item_id:
+          type: string
+          maxLength: 255
+          description: Your internal item identifier
+          example: sku_12345
+        quantity:
+          type: integer
+          description: Quantity of the item ordered
+          minimum: 1
+          example: 2
+        price:
+          type: number
+          format: double
+          description: Per-unit price of the item in the order currency
+          example: 49.99
+    PhoneResponse:
+      type: object
+      description: Phone number risk data
+      properties:
+        country:
+          type: string
+          description: ISO 3166-1 alpha-2 country code for the phone number
+          example: US
+        is_voip:
+          type: boolean
+          description: Whether the phone number is a VOIP number
+          example: false
+        matches_postal:
+          type: boolean
+          description: Whether the phone number area code matches the postal code
+          example: true
+        network_operator:
+          type: string
+          description: Name of the carrier/operator
+          example: US Cellular
+        number_type:
+          type: string
+          description: Type of phone number (e.g., landline, mobile, voip)
+          example: landline
+    OrderRequest:
+      type: object
+      description: Order-level information for the transaction
+      properties:
+        amount:
+          type: number
+          format: double
+          description: Total order value before taxes and discounts, in the currency specified
+          example: 123.45
+        currency:
+          type: string
+          maxLength: 3
+          description: ISO 4217 currency code for the order
+          example: USD
+        discount_code:
+          type: string
+          maxLength: 255
+          description: Comma-separated list of discount codes applied to the order
+          example: SUMMER20,LOYALTY5
+        affiliate_id:
+          type: string
+          maxLength: 255
+          description: Affiliate identifier for the order
+          example: aff_001
+        subaffiliate_id:
+          type: string
+          maxLength: 255
+          description: Sub-affiliate identifier for the order
+          example: subaff_002
+        referrer_uri:
+          type: string
+          maxLength: 1024
+          description: Absolute URI of the referring website
+          example: https://example.com/products
+        is_gift:
+          type: boolean
+          description: Whether the order is marked as a gift
+          example: false
+        has_gift_message:
+          type: boolean
+          description: Whether the order has a gift message
+          example: false
+    EmailResponse:
+      type: object
+      description: Email address risk data
+      properties:
+        domain:
+          type: object
+          properties:
+            classification:
+              type: string
+              description: Classification of the email domain
+              example: free
+            first_seen:
+              type: string
+              description: Date the domain was first seen (ISO 8601)
+              example: '2010-01-01'
+            risk:
+              type: number
+              format: double
+              description: Domain risk score from 0.01 to 99
+              example: 0.5
+            visit:
+              type: object
+              properties:
+                has_redirect:
+                  type: boolean
+                  description: Whether the domain redirects to another URL
+                last_visited_on:
+                  type: string
+                  description: Date the domain was last checked
+                status:
+                  type: string
+                  description: HTTP status of the domain
+            volume:
+              type: number
+              format: double
+              description: Relative email volume for the domain
+        first_seen:
+          type: string
+          description: Date the email address was first seen by MaxMind (ISO 8601)
+          example: '2018-06-15'
+        is_disposable:
+          type: boolean
+          description: Whether the email address is from a disposable email provider
+          example: false
+        is_free:
+          type: boolean
+          description: Whether the email address is from a free email provider
+          example: false
+        is_high_risk:
+          type: boolean
+          description: Whether the email address is considered high risk
+          example: false
     DispositionResponse:
       type: object
       description: The disposition determined by custom rules
@@ -840,9 +542,307 @@ components:
           type: string
           description: Label for the custom rule that triggered the action
           example: low_risk_rule
+    DeviceRequest:
+      type: object
+      description: Device information about the transaction
+      properties:
+        ip_address:
+          type: string
+          description: IPv4 or IPv6 address of the device initiating the transaction
+          example: 128.101.101.101
+        user_agent:
+          type: string
+          maxLength: 512
+          description: Browser HTTP User-Agent header value
+          example: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36
+        accept_language:
+          type: string
+          maxLength: 255
+          description: Browser HTTP Accept-Language header value
+          example: en-US,en;q=0.9
+        session_age:
+          type: number
+          format: double
+          description: Number of seconds elapsed since the current session began
+          example: 3600.5
+        session_id:
+          type: string
+          maxLength: 255
+          description: Unique identifier for the visitor's session
+          example: abc123def456
+        tracking_token:
+          type: string
+          description: Device tracking add-on token for fingerprinting
+    Warning:
+      type: object
+      description: A non-fatal warning about the transaction data
+      properties:
+        code:
+          type: string
+          description: Machine-readable warning code
+          example: EMAIL_ADDRESS_INVALID
+        input_pointer:
+          type: string
+          description: JSON Pointer to the field that triggered the warning
+          example: /email/address
+        warning:
+          type: string
+          description: Human-readable warning description
+          example: The email address supplied is not valid.
+    IpAddressRiskReason:
+      type: object
+      description: A reason contributing to the IP risk score
+      properties:
+        code:
+          type: string
+          description: Machine-readable reason code
+          example: ANONYMOUS_IP
+        reason:
+          type: string
+          description: Human-readable reason description
+          example: The IP address is associated with an anonymous network.
+    PaymentRequest:
+      type: object
+      description: Payment method information
+      properties:
+        method:
+          type: string
+          description: 'Payment method. Possible values: card, bank_debit, crypto, digital_wallet, google_pay, interac, invoice, paypal, poli, sepa, sofort, square_cash, ukash, venus_point, webmoney
+
+            '
+          example: card
+        processor:
+          type: string
+          description: 'Payment processor. Possible values: adyen, affirm, afterpay, amazon, authorizenet, balanced, beanstream, bluepay, bluesnap, bpoint, braintree, cardknox, cardpay, cashnet, ccnow, chase_paymentech, checkout_com, cielo, collector, conekta, ct_payments, cybersource, dibs, digital_river, elavon, epay, eprocessing_network, eway, exact, fiserv, global_payments, heartland, hipay, ipp, keyclient, keypaynz, komoju, litle, mastercard_payment_gateway, mercadopago, merchant_esolutions, mirjeh, mollie, moneris_solutions, nmi, orbital, other, paidy, pay4later, payco, paydirekt, payeezy, payfast, paygate, payme, payone, payoneer, paypalec, paysafe, paytrace, payway, payza, pinpayments, posconnect, princeton_payment_solutions, psigate, qiwi, quickpay, raberil, rede, redpagos, rewardspay, sagepay, securetrading, simplify_commerce, skrill, smartpay, solidtrust_pay, sps_decidir, stripe, telerecargas, towah, usa_epay, verepay, vme, vpos, worldpay, * (custom processor)
+
+            '
+          example: stripe
+        was_authorized:
+          type: boolean
+          description: Whether the payment was authorized
+          example: true
+        decline_code:
+          type: string
+          maxLength: 255
+          description: Decline code returned by the payment processor
+          example: insufficient_funds
+    AccountRequest:
+      type: object
+      description: Account data associated with the transaction
+      properties:
+        user_id:
+          type: string
+          maxLength: 255
+          description: Unique permanent identifier for the user in your system
+          example: user_12345
+        username_md5:
+          type: string
+          maxLength: 32
+          description: MD5 hash of the username or login name
+          example: 4f9726678491da7f0aa33f453ae38ba8
+    AddressResponse:
+      type: object
+      description: Address verification data
+      properties:
+        distance_to_ip_location:
+          type: integer
+          description: Distance in kilometers from the address to the IP location
+          example: 15
+        is_in_ip_country:
+          type: boolean
+          description: Whether the address is in the same country as the IP
+          example: true
+        is_postal_in_city:
+          type: boolean
+          description: Whether the postal code is within the provided city
+          example: true
+        latitude:
+          type: number
+          format: double
+          description: Approximate latitude of the address
+          example: 44.9532
+        longitude:
+          type: number
+          format: double
+          description: Approximate longitude of the address
+          example: -93.0875
+    AddressRequest:
+      type: object
+      description: Address information (used for both billing and shipping)
+      properties:
+        first_name:
+          type: string
+          maxLength: 255
+          description: First name
+          example: John
+        last_name:
+          type: string
+          maxLength: 255
+          description: Last name
+          example: Doe
+        company:
+          type: string
+          maxLength: 255
+          description: Company name
+          example: Acme Corp
+        address:
+          type: string
+          maxLength: 255
+          description: First line of the street address
+          example: 1234 Main St
+        address_2:
+          type: string
+          maxLength: 255
+          description: Second line of the street address
+          example: Suite 100
+        city:
+          type: string
+          maxLength: 255
+          description: City name
+          example: Minneapolis
+        region:
+          type: string
+          maxLength: 4
+          description: ISO 3166-2 subdivision code
+          example: MN
+        country:
+          type: string
+          maxLength: 2
+          description: ISO 3166-1 alpha-2 country code
+          example: US
+        postal:
+          type: string
+          maxLength: 255
+          description: Postal code
+          example: '55420'
+        phone_number:
+          type: string
+          maxLength: 255
+          description: Phone number without country code
+          example: 612-555-0100
+        phone_country_code:
+          type: string
+          maxLength: 4
+          description: Country code for the phone number
+          example: '1'
+    CreditCardRequest:
+      type: object
+      description: Credit card information for the transaction
+      properties:
+        issuer_id_number:
+          type: string
+          maxLength: 8
+          description: 'The first 6 or 8 digits of the credit card number (IIN/BIN). Must be 6 or 8 digits.
+
+            '
+          example: '411111'
+        last_digits:
+          type: string
+          maxLength: 4
+          description: Last 2 or 4 digits of the credit card number
+          example: '1111'
+        token:
+          type: string
+          maxLength: 255
+          description: 'A unique card identifier that does not directly identify the card number, such as a token from your payment processor
+
+            '
+          example: tok_abc123def456
+        bank_name:
+          type: string
+          maxLength: 255
+          description: Name of the bank issuing the credit card
+          example: US Bank
+        bank_phone_country_code:
+          type: string
+          maxLength: 4
+          description: Country code for the bank's phone number
+          example: '1'
+        bank_phone_number:
+          type: string
+          maxLength: 255
+          description: Phone number for the issuing bank
+          example: 800-555-1234
+        country:
+          type: string
+          maxLength: 2
+          description: ISO 3166-1 alpha-2 country code where the issuer is located
+          example: US
+        avs_result:
+          type: string
+          maxLength: 1
+          description: AVS check result code from the payment processor
+          example: Y
+        cvv_result:
+          type: string
+          maxLength: 1
+          description: CVV check result code from the payment processor
+          example: M
+        was_3d_secure_successful:
+          type: boolean
+          description: Whether 3-D Secure verification was successful
+          example: true
+    EventRequest:
+      type: object
+      description: Data about the event being scored
+      properties:
+        transaction_id:
+          type: string
+          maxLength: 255
+          description: Your internal transaction or order identifier
+          example: txn_abc123
+        shop_id:
+          type: string
+          maxLength: 255
+          description: Your internal identifier for the shop, affiliate, or merchant
+          example: shop_001
+        time:
+          type: string
+          format: date-time
+          description: 'RFC 3339 date-time of the event. Must be within the past year. If not provided, the current time is used.
+
+            '
+          example: '2024-03-15T10:30:00Z'
+        type:
+          type: string
+          description: 'Type of event. Possible values: account_creation, account_login, email_change, password_reset, payout_change, purchase, recurring_purchase, referral, survey
+
+            '
+          enum:
+          - account_creation
+          - account_login
+          - email_change
+          - password_reset
+          - payout_change
+          - purchase
+          - recurring_purchase
+          - referral
+          - survey
+          example: purchase
+        party:
+          type: string
+          description: The party submitting the transaction. Either customer or agent.
+          enum:
+          - customer
+          - agent
+          example: customer
+    ShippingRequest:
+      allOf:
+      - $ref: '#/components/schemas/AddressRequest'
+      - type: object
+        properties:
+          delivery_speed:
+            type: string
+            description: Shipping delivery speed
+            enum:
+            - same_day
+            - overnight
+            - expedited
+            - standard
+            example: standard
   responses:
-    TooManyRequests:
-      description: 'Request rate limit exceeded. Reduce your request rate.
+    NotFound:
+      description: 'The requested resource was not found.
 
         '
       content:
@@ -851,30 +851,6 @@ components:
             $ref: '#/components/schemas/ErrorResponse'
     PaymentRequired:
       description: 'Insufficient funds in your MaxMind account. Purchase additional transaction credits.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    InternalServerError:
-      description: 'An unexpected error occurred on MaxMind''s servers.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    Forbidden:
-      description: 'The request is forbidden. Your account may not be enabled for this service or the IP is blocked.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    NotFound:
-      description: 'The requested resource was not found.
 
         '
       content:
@@ -891,6 +867,30 @@ components:
             $ref: '#/components/schemas/ErrorResponse'
     BadRequest:
       description: 'There was an error with the request body. Check the code and error fields for details about the specific problem.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    InternalServerError:
+      description: 'An unexpected error occurred on MaxMind''s servers.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    TooManyRequests:
+      description: 'Request rate limit exceeded. Reduce your request rate.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Forbidden:
+      description: 'The request is forbidden. Your account may not be enabled for this service or the IP is blocked.
 
         '
       content:
