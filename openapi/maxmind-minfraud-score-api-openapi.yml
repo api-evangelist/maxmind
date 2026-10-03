@@ -55,22 +55,6 @@ paths:
           $ref: '#/components/responses/InternalServerError'
 components:
   responses:
-    NotFound:
-      description: 'The requested resource was not found.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    PaymentRequired:
-      description: 'Insufficient funds in your MaxMind account. Purchase additional transaction credits.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
     Unauthorized:
       description: 'Authentication failed. Verify your MaxMind account ID and license key.
 
@@ -87,8 +71,8 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    InternalServerError:
-      description: 'An unexpected error occurred on MaxMind''s servers.
+    Forbidden:
+      description: 'The request is forbidden. Your account may not be enabled for this service or the IP is blocked.
 
         '
       content:
@@ -103,8 +87,24 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    Forbidden:
-      description: 'The request is forbidden. Your account may not be enabled for this service or the IP is blocked.
+    InternalServerError:
+      description: 'An unexpected error occurred on MaxMind''s servers.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    PaymentRequired:
+      description: 'Insufficient funds in your MaxMind account. Purchase additional transaction credits.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: 'The requested resource was not found.
 
         '
       content:
@@ -128,81 +128,37 @@ components:
           maxLength: 255
           description: The domain of the email address (without the @ symbol)
           example: example.com
-    ErrorResponse:
+    DeviceRequest:
       type: object
-      description: Standard error response
+      description: Device information about the transaction
       properties:
-        code:
+        ip_address:
           type: string
-          description: Error code
-          example: JSON_INVALID
-        error:
+          description: IPv4 or IPv6 address of the device initiating the transaction
+          example: 128.101.101.101
+        user_agent:
           type: string
-          description: Human-readable error description
-          example: The request body could not be decoded as JSON.
-    TransactionRequest:
-      type: object
-      description: 'The transaction data to be scored. At minimum, the device.ip_address is required. Total request body size is limited to 20,000 bytes.
-
-        '
-      properties:
-        device:
-          $ref: '#/components/schemas/DeviceRequest'
-        event:
-          $ref: '#/components/schemas/EventRequest'
-        account:
-          $ref: '#/components/schemas/AccountRequest'
-        email:
-          $ref: '#/components/schemas/EmailRequest'
-        billing:
-          $ref: '#/components/schemas/AddressRequest'
-        shipping:
-          $ref: '#/components/schemas/ShippingRequest'
-        payment:
-          $ref: '#/components/schemas/PaymentRequest'
-        credit_card:
-          $ref: '#/components/schemas/CreditCardRequest'
-        order:
-          $ref: '#/components/schemas/OrderRequest'
-        shopping_cart:
-          type: array
-          description: List of items in the shopping cart
-          items:
-            $ref: '#/components/schemas/ShoppingCartItem'
-        custom_inputs:
-          type: object
-          description: 'Custom input fields configured for your account. Values may be booleans, strings, numbers, or phone numbers.
-
-            '
-          additionalProperties:
-            oneOf:
-            - type: boolean
-            - type: string
-            - type: number
-    ShoppingCartItem:
-      type: object
-      description: A single item in the shopping cart
-      properties:
-        category:
+          maxLength: 512
+          description: Browser HTTP User-Agent header value
+          example: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36
+        accept_language:
           type: string
           maxLength: 255
-          description: Category of the item
-          example: Electronics
-        item_id:
-          type: string
-          maxLength: 255
-          description: Your internal item identifier
-          example: sku_12345
-        quantity:
-          type: integer
-          description: Quantity of the item ordered
-          minimum: 1
-          example: 2
-        price:
+          description: Browser HTTP Accept-Language header value
+          example: en-US,en;q=0.9
+        session_age:
           type: number
           format: double
-          description: Per-unit price of the item in the order currency
-          example: 49.99
+          description: Number of seconds elapsed since the current session began
+          example: 3600.5
+        session_id:
+          type: string
+          maxLength: 255
+          description: Unique identifier for the visitor's session
+          example: abc123def456
+        tracking_token:
+          type: string
+          description: Device tracking add-on token for fingerprinting
     ScoreResponse:
       type: object
       description: Response from the minFraud Score web service
@@ -246,6 +202,155 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Warning'
+    ShippingRequest:
+      allOf:
+      - $ref: '#/components/schemas/AddressRequest'
+      - type: object
+        properties:
+          delivery_speed:
+            type: string
+            description: Shipping delivery speed
+            enum:
+            - same_day
+            - overnight
+            - expedited
+            - standard
+            example: standard
+    EventRequest:
+      type: object
+      description: Data about the event being scored
+      properties:
+        transaction_id:
+          type: string
+          maxLength: 255
+          description: Your internal transaction or order identifier
+          example: txn_abc123
+        shop_id:
+          type: string
+          maxLength: 255
+          description: Your internal identifier for the shop, affiliate, or merchant
+          example: shop_001
+        time:
+          type: string
+          format: date-time
+          description: 'RFC 3339 date-time of the event. Must be within the past year. If not provided, the current time is used.
+
+            '
+          example: '2024-03-15T10:30:00Z'
+        type:
+          type: string
+          description: 'Type of event. Possible values: account_creation, account_login, email_change, password_reset, payout_change, purchase, recurring_purchase, referral, survey
+
+            '
+          enum:
+          - account_creation
+          - account_login
+          - email_change
+          - password_reset
+          - payout_change
+          - purchase
+          - recurring_purchase
+          - referral
+          - survey
+          example: purchase
+        party:
+          type: string
+          description: The party submitting the transaction. Either customer or agent.
+          enum:
+          - customer
+          - agent
+          example: customer
+    DispositionResponse:
+      type: object
+      description: The disposition determined by custom rules
+      properties:
+        action:
+          type: string
+          description: 'The action to take (e.g., accept, reject, manual_review, test)
+
+            '
+          example: accept
+        reason:
+          type: string
+          description: The reason for the action
+          example: default
+        rule_label:
+          type: string
+          description: Label for the custom rule that triggered the action
+          example: low_risk_rule
+    Warning:
+      type: object
+      description: A non-fatal warning about the transaction data
+      properties:
+        code:
+          type: string
+          description: Machine-readable warning code
+          example: EMAIL_ADDRESS_INVALID
+        input_pointer:
+          type: string
+          description: JSON Pointer to the field that triggered the warning
+          example: /email/address
+        warning:
+          type: string
+          description: Human-readable warning description
+          example: The email address supplied is not valid.
+    CreditCardRequest:
+      type: object
+      description: Credit card information for the transaction
+      properties:
+        issuer_id_number:
+          type: string
+          maxLength: 8
+          description: 'The first 6 or 8 digits of the credit card number (IIN/BIN). Must be 6 or 8 digits.
+
+            '
+          example: '411111'
+        last_digits:
+          type: string
+          maxLength: 4
+          description: Last 2 or 4 digits of the credit card number
+          example: '1111'
+        token:
+          type: string
+          maxLength: 255
+          description: 'A unique card identifier that does not directly identify the card number, such as a token from your payment processor
+
+            '
+          example: tok_abc123def456
+        bank_name:
+          type: string
+          maxLength: 255
+          description: Name of the bank issuing the credit card
+          example: US Bank
+        bank_phone_country_code:
+          type: string
+          maxLength: 4
+          description: Country code for the bank's phone number
+          example: '1'
+        bank_phone_number:
+          type: string
+          maxLength: 255
+          description: Phone number for the issuing bank
+          example: 800-555-1234
+        country:
+          type: string
+          maxLength: 2
+          description: ISO 3166-1 alpha-2 country code where the issuer is located
+          example: US
+        avs_result:
+          type: string
+          maxLength: 1
+          description: AVS check result code from the payment processor
+          example: Y
+        cvv_result:
+          type: string
+          maxLength: 1
+          description: CVV check result code from the payment processor
+          example: M
+        was_3d_secure_successful:
+          type: boolean
+          description: Whether 3-D Secure verification was successful
+          example: true
     OrderRequest:
       type: object
       description: Order-level information for the transaction
@@ -288,96 +393,6 @@ components:
           type: boolean
           description: Whether the order has a gift message
           example: false
-    DispositionResponse:
-      type: object
-      description: The disposition determined by custom rules
-      properties:
-        action:
-          type: string
-          description: 'The action to take (e.g., accept, reject, manual_review, test)
-
-            '
-          example: accept
-        reason:
-          type: string
-          description: The reason for the action
-          example: default
-        rule_label:
-          type: string
-          description: Label for the custom rule that triggered the action
-          example: low_risk_rule
-    DeviceRequest:
-      type: object
-      description: Device information about the transaction
-      properties:
-        ip_address:
-          type: string
-          description: IPv4 or IPv6 address of the device initiating the transaction
-          example: 128.101.101.101
-        user_agent:
-          type: string
-          maxLength: 512
-          description: Browser HTTP User-Agent header value
-          example: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36
-        accept_language:
-          type: string
-          maxLength: 255
-          description: Browser HTTP Accept-Language header value
-          example: en-US,en;q=0.9
-        session_age:
-          type: number
-          format: double
-          description: Number of seconds elapsed since the current session began
-          example: 3600.5
-        session_id:
-          type: string
-          maxLength: 255
-          description: Unique identifier for the visitor's session
-          example: abc123def456
-        tracking_token:
-          type: string
-          description: Device tracking add-on token for fingerprinting
-    Warning:
-      type: object
-      description: A non-fatal warning about the transaction data
-      properties:
-        code:
-          type: string
-          description: Machine-readable warning code
-          example: EMAIL_ADDRESS_INVALID
-        input_pointer:
-          type: string
-          description: JSON Pointer to the field that triggered the warning
-          example: /email/address
-        warning:
-          type: string
-          description: Human-readable warning description
-          example: The email address supplied is not valid.
-    PaymentRequest:
-      type: object
-      description: Payment method information
-      properties:
-        method:
-          type: string
-          description: 'Payment method. Possible values: card, bank_debit, crypto, digital_wallet, google_pay, interac, invoice, paypal, poli, sepa, sofort, square_cash, ukash, venus_point, webmoney
-
-            '
-          example: card
-        processor:
-          type: string
-          description: 'Payment processor. Possible values: adyen, affirm, afterpay, amazon, authorizenet, balanced, beanstream, bluepay, bluesnap, bpoint, braintree, cardknox, cardpay, cashnet, ccnow, chase_paymentech, checkout_com, cielo, collector, conekta, ct_payments, cybersource, dibs, digital_river, elavon, epay, eprocessing_network, eway, exact, fiserv, global_payments, heartland, hipay, ipp, keyclient, keypaynz, komoju, litle, mastercard_payment_gateway, mercadopago, merchant_esolutions, mirjeh, mollie, moneris_solutions, nmi, orbital, other, paidy, pay4later, payco, paydirekt, payeezy, payfast, paygate, payme, payone, payoneer, paypalec, paysafe, paytrace, payway, payza, pinpayments, posconnect, princeton_payment_solutions, psigate, qiwi, quickpay, raberil, rede, redpagos, rewardspay, sagepay, securetrading, simplify_commerce, skrill, smartpay, solidtrust_pay, sps_decidir, stripe, telerecargas, towah, usa_epay, verepay, vme, vpos, worldpay, * (custom processor)
-
-            '
-          example: stripe
-        was_authorized:
-          type: boolean
-          description: Whether the payment was authorized
-          example: true
-        decline_code:
-          type: string
-          maxLength: 255
-          description: Decline code returned by the payment processor
-          example: insufficient_funds
     AccountRequest:
       type: object
       description: Account data associated with the transaction
@@ -392,6 +407,30 @@ components:
           maxLength: 32
           description: MD5 hash of the username or login name
           example: 4f9726678491da7f0aa33f453ae38ba8
+    ShoppingCartItem:
+      type: object
+      description: A single item in the shopping cart
+      properties:
+        category:
+          type: string
+          maxLength: 255
+          description: Category of the item
+          example: Electronics
+        item_id:
+          type: string
+          maxLength: 255
+          description: Your internal item identifier
+          example: sku_12345
+        quantity:
+          type: integer
+          description: Quantity of the item ordered
+          minimum: 1
+          example: 2
+        price:
+          type: number
+          format: double
+          description: Per-unit price of the item in the order currency
+          example: 49.99
     AddressRequest:
       type: object
       description: Address information (used for both billing and shipping)
@@ -451,121 +490,82 @@ components:
           maxLength: 4
           description: Country code for the phone number
           example: '1'
-    CreditCardRequest:
+    ErrorResponse:
       type: object
-      description: Credit card information for the transaction
+      description: Standard error response
       properties:
-        issuer_id_number:
+        code:
           type: string
-          maxLength: 8
-          description: 'The first 6 or 8 digits of the credit card number (IIN/BIN). Must be 6 or 8 digits.
+          description: Error code
+          example: JSON_INVALID
+        error:
+          type: string
+          description: Human-readable error description
+          example: The request body could not be decoded as JSON.
+    TransactionRequest:
+      type: object
+      description: 'The transaction data to be scored. At minimum, the device.ip_address is required. Total request body size is limited to 20,000 bytes.
+
+        '
+      properties:
+        device:
+          $ref: '#/components/schemas/DeviceRequest'
+        event:
+          $ref: '#/components/schemas/EventRequest'
+        account:
+          $ref: '#/components/schemas/AccountRequest'
+        email:
+          $ref: '#/components/schemas/EmailRequest'
+        billing:
+          $ref: '#/components/schemas/AddressRequest'
+        shipping:
+          $ref: '#/components/schemas/ShippingRequest'
+        payment:
+          $ref: '#/components/schemas/PaymentRequest'
+        credit_card:
+          $ref: '#/components/schemas/CreditCardRequest'
+        order:
+          $ref: '#/components/schemas/OrderRequest'
+        shopping_cart:
+          type: array
+          description: List of items in the shopping cart
+          items:
+            $ref: '#/components/schemas/ShoppingCartItem'
+        custom_inputs:
+          type: object
+          description: 'Custom input fields configured for your account. Values may be booleans, strings, numbers, or phone numbers.
 
             '
-          example: '411111'
-        last_digits:
+          additionalProperties:
+            oneOf:
+            - type: boolean
+            - type: string
+            - type: number
+    PaymentRequest:
+      type: object
+      description: Payment method information
+      properties:
+        method:
           type: string
-          maxLength: 4
-          description: Last 2 or 4 digits of the credit card number
-          example: '1111'
-        token:
-          type: string
-          maxLength: 255
-          description: 'A unique card identifier that does not directly identify the card number, such as a token from your payment processor
+          description: 'Payment method. Possible values: card, bank_debit, crypto, digital_wallet, google_pay, interac, invoice, paypal, poli, sepa, sofort, square_cash, ukash, venus_point, webmoney
 
             '
-          example: tok_abc123def456
-        bank_name:
+          example: card
+        processor:
           type: string
-          maxLength: 255
-          description: Name of the bank issuing the credit card
-          example: US Bank
-        bank_phone_country_code:
-          type: string
-          maxLength: 4
-          description: Country code for the bank's phone number
-          example: '1'
-        bank_phone_number:
-          type: string
-          maxLength: 255
-          description: Phone number for the issuing bank
-          example: 800-555-1234
-        country:
-          type: string
-          maxLength: 2
-          description: ISO 3166-1 alpha-2 country code where the issuer is located
-          example: US
-        avs_result:
-          type: string
-          maxLength: 1
-          description: AVS check result code from the payment processor
-          example: Y
-        cvv_result:
-          type: string
-          maxLength: 1
-          description: CVV check result code from the payment processor
-          example: M
-        was_3d_secure_successful:
+          description: 'Payment processor. Possible values: adyen, affirm, afterpay, amazon, authorizenet, balanced, beanstream, bluepay, bluesnap, bpoint, braintree, cardknox, cardpay, cashnet, ccnow, chase_paymentech, checkout_com, cielo, collector, conekta, ct_payments, cybersource, dibs, digital_river, elavon, epay, eprocessing_network, eway, exact, fiserv, global_payments, heartland, hipay, ipp, keyclient, keypaynz, komoju, litle, mastercard_payment_gateway, mercadopago, merchant_esolutions, mirjeh, mollie, moneris_solutions, nmi, orbital, other, paidy, pay4later, payco, paydirekt, payeezy, payfast, paygate, payme, payone, payoneer, paypalec, paysafe, paytrace, payway, payza, pinpayments, posconnect, princeton_payment_solutions, psigate, qiwi, quickpay, raberil, rede, redpagos, rewardspay, sagepay, securetrading, simplify_commerce, skrill, smartpay, solidtrust_pay, sps_decidir, stripe, telerecargas, towah, usa_epay, verepay, vme, vpos, worldpay, * (custom processor)
+
+            '
+          example: stripe
+        was_authorized:
           type: boolean
-          description: Whether 3-D Secure verification was successful
+          description: Whether the payment was authorized
           example: true
-    EventRequest:
-      type: object
-      description: Data about the event being scored
-      properties:
-        transaction_id:
+        decline_code:
           type: string
           maxLength: 255
-          description: Your internal transaction or order identifier
-          example: txn_abc123
-        shop_id:
-          type: string
-          maxLength: 255
-          description: Your internal identifier for the shop, affiliate, or merchant
-          example: shop_001
-        time:
-          type: string
-          format: date-time
-          description: 'RFC 3339 date-time of the event. Must be within the past year. If not provided, the current time is used.
-
-            '
-          example: '2024-03-15T10:30:00Z'
-        type:
-          type: string
-          description: 'Type of event. Possible values: account_creation, account_login, email_change, password_reset, payout_change, purchase, recurring_purchase, referral, survey
-
-            '
-          enum:
-          - account_creation
-          - account_login
-          - email_change
-          - password_reset
-          - payout_change
-          - purchase
-          - recurring_purchase
-          - referral
-          - survey
-          example: purchase
-        party:
-          type: string
-          description: The party submitting the transaction. Either customer or agent.
-          enum:
-          - customer
-          - agent
-          example: customer
-    ShippingRequest:
-      allOf:
-      - $ref: '#/components/schemas/AddressRequest'
-      - type: object
-        properties:
-          delivery_speed:
-            type: string
-            description: Shipping delivery speed
-            enum:
-            - same_day
-            - overnight
-            - expedited
-            - standard
-            example: standard
+          description: Decline code returned by the payment processor
+          example: insufficient_funds
   securitySchemes:
     basicAuth:
       type: http
