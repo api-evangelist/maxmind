@@ -1,4 +1,4 @@
-# MaxMind (maxmind)
+# MaxMind
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,72 +66,132 @@
 
 MaxMind is an IP intelligence and fraud prevention company founded in 2002, serving over 100,000 businesses worldwide. Their GeoIP web services provide accurate IP geolocation data including country, city, ISP, organization, ASN, connection type, and VPN/proxy detection. Their minFraud services offer real-time transaction risk scoring using over 80 data points on IPs, email addresses, devices, and payment cards to help businesses detect and prevent fraud. MaxMind also offers downloadable GeoIP databases and the free GeoLite2 dataset for developers who prefer local lookups over API calls.
 
-APIs.json: https://raw.githubusercontent.com/api-evangelist/maxmind/refs/heads/main/apis.yml
+**Areas:** IP Intelligence · Geolocation · Fraud Prevention · Risk Scoring · VPN Detection · Proxy Detection · ISP Data · GeoIP
 
-Naftiko: https://github.com/naftiko/fleet?utm_source=api-evangelist&utm_medium=readme&utm_campaign=maxmind-api-evangelist&utm_content=repo
+## MaxMind on APIs.io
 
-## Tags
+Everything profiled for MaxMind is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/maxmind/](https://apis.io/providers/maxmind/)** — or go straight to one of the APIs or properties below.
 
-- IP Intelligence
-- Geolocation
-- Fraud Prevention
-- Risk Scoring
-- VPN Detection
-- Proxy Detection
-- ISP Data
-- GeoIP
+### APIs (6)
 
-## APIs
+- [MaxMind GeoIP City API](https://apis.io/apis/maxmind/maxmind-geoip-city-api/) — City-level IP geolocation lookup with postal, subdivisions, and coordinates
+- [MaxMind GeoIP Country API](https://apis.io/apis/maxmind/maxmind-geoip-country-api/) — Country-level IP geolocation lookup
+- [MaxMind GeoIP Insights API](https://apis.io/apis/maxmind/maxmind-geoip-insights-api/) — Most comprehensive IP data lookup including anonymizer/VPN/proxy detection, user type, static IP score, and connection details
+- [MaxMind minFraud Factors API](https://apis.io/apis/maxmind/maxmind-minfraud-factors-api/) — Most detailed fraud scoring with component-level risk factor decomposition
+- [MaxMind minFraud Insights API](https://apis.io/apis/maxmind/maxmind-minfraud-insights-api/) — Extended fraud scoring with over 80 data points on IPs, emails, devices, and payment cards
+- [MaxMind minFraud Score API](https://apis.io/apis/maxmind/maxmind-minfraud-score-api/) — Basic fraud scoring returning a single risk score (0-99) and IP risk score
 
-| Name | Description |
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### Agentic access (1)
+
+Which operations an agent can call, which act, and which need a human in the loop.
+
+- [Maxmind Agentic Access](https://apis.io/agentic-access/maxmind/maxmind-agentic-access/)
+
+#### JSON-LD (1)
+
+Linked-data contexts for the provider's vocabulary.
+
+- [Maxmind Context](https://apis.io/jsonld/maxmind/maxmind-context/)
+
+#### Collections (6)
+
+Postman and Open Collection request collections.
+
+- [MaxMind GeoIP Web Services GeoIP City API](https://apis.io/collections/maxmind/open-maxmind-geoip-city-api/)
+- [MaxMind GeoIP Web Services GeoIP City GeoIP Country API](https://apis.io/collections/maxmind/open-maxmind-geoip-country-api/)
+- [MaxMind GeoIP Web Services GeoIP City GeoIP Insights API](https://apis.io/collections/maxmind/open-maxmind-geoip-insights-api/)
+- [MaxMind GeoIP Web Services GeoIP City minFraud Factors API](https://apis.io/collections/maxmind/open-maxmind-minfraud-factors-api/)
+- [MaxMind GeoIP Web Services GeoIP City minFraud Insights API](https://apis.io/collections/maxmind/open-maxmind-minfraud-insights-api/)
+- [MaxMind GeoIP Web Services GeoIP City minFraud Score API](https://apis.io/collections/maxmind/open-maxmind-minfraud-score-api/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Maxmind Authentication](https://apis.io/security/maxmind/maxmind-authentication/)
+- [Maxmind Domain Security](https://apis.io/security/maxmind/maxmind-domain-security/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Maxmind Plans Pricing](https://apis.io/plans/maxmind/maxmind-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Maxmind Rate Limits](https://apis.io/rate-limits/maxmind/maxmind-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Maxmind Finops](https://apis.io/finops/maxmind/maxmind-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.maxmind.com/)
+- [Documentation](https://dev.maxmind.com/)
+- [Pricing](https://www.maxmind.com/en/solutions/fraud-prevention/plans-pricing)
+- [Blog](https://blog.maxmind.com/)
+- [Status](https://status.maxmind.com/)
+
+## API Evangelist rating
+
+**Kin Score 31.7** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
 |---|---|
-| GeoIP Country Web Service | Country-level geolocation via REST API ($0.0001/query) |
-| GeoIP City Plus Web Service | City-level geolocation with ISP and ASN data ($0.0003/query) |
-| GeoIP Insights Web Service | Full IP intelligence with VPN/proxy detection ($0.002/query) |
-| minFraud Score | Transaction risk score API ($0.005/query) |
-| minFraud Insights | 80+ data point fraud scoring API ($0.015/query) |
-| minFraud Factors | Component-level risk factor decomposition ($0.020/query) |
+| Discoverability | 66.1 |
+| Contract quality | 57.5 |
+| Contract governance | 0.0 |
+| Operational transparency | 21.1 |
+| Developer ergonomics | 23.8 |
+| Access clarity | 18.4 |
 
-## Plans, Rate Limits, and FinOps
+**Agent readiness 17.9** — agent-aware
 
-| Resource | Path |
+| Agent-readiness dimension | Result |
 |---|---|
-| Plans and Pricing | [plans/maxmind-plans-pricing.yml](plans/maxmind-plans-pricing.yml) |
-| Rate Limits | [rate-limits/maxmind-rate-limits.yml](rate-limits/maxmind-rate-limits.yml) |
-| FinOps | [finops/maxmind-finops.yml](finops/maxmind-finops.yml) |
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | — |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
 
-### Pricing Summary
+**Regulatory alignment 16.7** — Horizontal (data, software, accessibility, platform)
 
-MaxMind uses a unified pay-as-you-go credit model shared across all GeoIP and minFraud web service APIs. There are no monthly minimums or commitments. GeoIP database subscriptions are billed separately on monthly or annual terms. A free GeoLite2 tier is available for country and city data with reduced accuracy.
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/maxmind/](https://apis.io/providers/maxmind/).
 
-### Rate Limits
+## How this profile is made
 
-MaxMind does not enforce strict per-second rate limits for paid web service customers. Usage is metered by credit balance. Database download endpoints have a per-account daily download limit. Excessive error rates may trigger temporary throttling.
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
 
-### FinOps Notes
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for MaxMind: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
 
-The primary cost optimization strategies are session-level caching (reduces queries 40-80%), service tier right-sizing (match tier to fields actually consumed), and the score-based escalation pattern for minFraud (use Score as a first pass, escalate to Insights/Factors only above a risk threshold). Annual database subscriptions save 8-10% versus monthly billing.
+## Open an issue
 
-## Timestamps
-
-- Created: 2026-06-12
-- Modified: 2026-06-12
-
-## Common Properties
-
-| Type | URL |
-|---|---|
-| Website | https://www.maxmind.com/ |
-| Documentation | https://dev.maxmind.com/ |
-| GitHub Organization | https://github.com/maxmind |
-| LinkedIn | https://www.linkedin.com/company/maxmind |
-| Blog | https://blog.maxmind.com/ |
-| Pricing | https://www.maxmind.com/en/solutions/fraud-prevention/plans-pricing |
-| Status Page | https://status.maxmind.com/ |
-| X (Twitter) | https://x.com/maxmind |
-
-## Maintainers
-
-| Name | Email |
-|---|---|
-| Kin Lane | kin@apievangelist.com |
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/maxmind/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
